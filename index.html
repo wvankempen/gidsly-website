@@ -3,481 +3,2002 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Gidsly — Your Personal Career Companion.</title>
+  <title>Gidsly — The career companion you wish you'd had.</title>
+  <meta name="description" content="Gidsly keeps every application, interview, and career decision in one place — with honest coaching for the moments that aren't on a spreadsheet." />
+
+  <!-- Open Graph / social share -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Gidsly — The career companion you wish you'd had." />
+  <meta property="og:description" content="Gidsly keeps every application, interview, and career decision in one place — with honest coaching for the moments that aren't on a spreadsheet." />
+  <meta property="og:image" content="gidsly-og-banner.png" />
+  <meta property="og:url" content="https://gidsly.com" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" type="image/png" href="gidsly-og-banner.png" />
+
+  <!-- Alternate language variants for search engines. Query-param approach
+       keeps things to one HTML file; once we move to path-based URLs later,
+       these hrefs update to /nl/, /de/, etc. -->
+  <link rel="alternate" hreflang="x-default" href="https://gidsly.com/" />
+  <link rel="alternate" hreflang="en" href="https://gidsly.com/?lang=en" />
+  <link rel="alternate" hreflang="nl" href="https://gidsly.com/?lang=nl" />
+  <link rel="alternate" hreflang="de" href="https://gidsly.com/?lang=de" />
+  <link rel="alternate" hreflang="fr" href="https://gidsly.com/?lang=fr" />
+  <link rel="alternate" hreflang="es" href="https://gidsly.com/?lang=es" />
+  <link rel="alternate" hreflang="it" href="https://gidsly.com/?lang=it" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <!--
+    Three faces:
+      – Fraunces for editorial headlines (marketing weight the app doesn't need)
+      – Inter for body copy (matches the app's body font)
+      – Libre Baskerville Bold for the single "G" in the brand mark (matches
+        the app's GidslyLogo component exactly — same letterform, same weight)
+  -->
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,300&family=Inter:wght@300;400;500;600;700&family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">
+
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --green: #1c4538;
-      --green-dark: #143329;
-      --green-accent: #2d6a4f;
-      --cream: #f5e3cc;
-      --bg: #fbf9f4;
+      --green:       #1c4538;
+      --green-dark:  #143329;
+      --green-soft:  #2d6a4f;
+      --cream:       #f5e3cc;
+      --bg:          #fbf9f4;
+      --ink:         #143329;
+      --muted:       rgba(20, 51, 41, 0.55);
+      --muted-2:     rgba(20, 51, 41, 0.35);
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
       background: var(--bg);
-      color: var(--green-dark);
+      color: var(--ink);
+      font-weight: 400;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
     }
 
+    /* Subtle paper grain — keeps the warmth without the dated floating orbs */
     body::before {
       content: '';
       position: fixed; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
-      pointer-events: none; z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
     }
 
-    .orb { position: fixed; border-radius: 50%; filter: blur(130px); pointer-events: none; z-index: 0; }
-    .orb-1 { width: 700px; height: 700px; background: rgba(28,69,56,0.10); top: -250px; right: -200px; animation: d1 20s ease-in-out infinite alternate; }
-    .orb-2 { width: 500px; height: 500px; background: rgba(245,227,204,0.38); bottom: -80px; left: -120px; animation: d2 24s ease-in-out infinite alternate; }
-    .orb-3 { width: 320px; height: 320px; background: rgba(45,106,79,0.07); top: 45%; left: 28%; animation: d3 28s ease-in-out infinite alternate; }
-    @keyframes d1 { to { transform: translate(-70px,90px) scale(1.12); } }
-    @keyframes d2 { to { transform: translate(90px,-70px) scale(1.18); } }
-    @keyframes d3 { to { transform: translate(-50px,50px) scale(0.88); } }
+    .wrapper { position: relative; z-index: 1; max-width: 1120px; margin: 0 auto; padding: 0 2rem; }
 
-    .wrapper { position: relative; z-index: 1; max-width: 1140px; margin: 0 auto; padding: 0 2rem; }
+    /* ── NAV ──────────────────────────────────────────────── */
+    nav {
+      padding: 1.75rem 0;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .brand { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; }
+    .brand-mark { width: 34px; height: 34px; border-radius: 7px; }
+    .brand-word {
+      font-family: 'Fraunces', serif;
+      font-weight: 900; font-size: 1.6rem;
+      color: var(--green); letter-spacing: -0.03em;
+    }
+    .nav-badge {
+      background: var(--cream);
+      border: 1px solid rgba(28, 69, 56, 0.18);
+      color: var(--green);
+      font-size: 0.7rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 0.45rem 1rem; border-radius: 999px;
+      white-space: nowrap;
+    }
 
-    /* NAV */
-    nav { padding: 2rem 0; display: flex; align-items: center; justify-content: space-between; }
-    .logo { font-family: 'Fraunces', serif; font-weight: 900; font-size: 1.8rem; color: var(--green); letter-spacing: -0.03em; }
-    .logo span { color: var(--green-accent); }
-    .nav-badge { background: rgba(28,69,56,0.08); border: 1px solid rgba(28,69,56,0.15); color: var(--green); font-size: 0.7rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.4rem 1rem; border-radius: 100px; }
+    /* ── HERO ─────────────────────────────────────────────── */
+    /* Tighter vertical padding so "Built for the whole journey"
+       starts pulling into view on larger screens without scroll. */
+    .hero { padding: 2.5rem 0 3rem; }
+    .hero-grid {
+      display: grid; grid-template-columns: 1.2fr 1fr;
+      gap: 4rem; align-items: center;
+    }
 
-    /* HERO */
-    .hero { padding: 4.5rem 0 3.5rem; }
-    .hero-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    /* Hero CTA row — primary filled button + quiet secondary link.
+       The primary anchor-scrolls to #waitlist (closing CTA form). */
+    .hero-cta {
+      display: flex; align-items: center; gap: 1.3rem; flex-wrap: wrap;
+      margin-top: 2.5rem;
+      animation: fadeUp 0.8s 0.3s ease both;
+    }
+    .btn-primary {
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem; font-weight: 500;
+      background: var(--green); color: var(--cream);
+      text-decoration: none;
+      padding: 0.95rem 1.6rem; border-radius: 1rem;
+      box-shadow: 0 6px 22px rgba(28, 69, 56, 0.25);
+      transition: background .2s, transform .15s, box-shadow .2s;
+    }
+    .btn-primary:hover {
+      background: var(--green-soft);
+      transform: translateY(-1px);
+      box-shadow: 0 10px 32px rgba(28, 69, 56, 0.32);
+    }
+    .btn-ghost {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem; font-weight: 500;
+      color: var(--green-soft);
+      text-decoration: none;
+      padding: 0.4rem 0;
+      border-bottom: 1px dotted transparent;
+      transition: color .2s, border-color .2s;
+    }
+    .btn-ghost:hover { color: var(--green); border-bottom-color: currentColor; }
 
     .hero-eyebrow {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      background: var(--cream); border: 1px solid rgba(28,69,56,0.18);
-      color: var(--green-accent); font-size: 0.72rem; font-weight: 500;
-      letter-spacing: 0.15em; text-transform: uppercase;
-      padding: 0.45rem 1.1rem; border-radius: 100px; margin-bottom: 1.8rem;
-      animation: fadeUp 0.8s ease both;
+      display: inline-flex; align-items: center; gap: 0.55rem;
+      background: rgba(28, 69, 56, 0.05);
+      border: 1px solid rgba(28, 69, 56, 0.1);
+      color: var(--green-soft);
+      font-size: 0.72rem; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      padding: 0.5rem 1rem; border-radius: 999px;
+      margin-bottom: 2rem;
+      animation: fadeUp 0.7s ease both;
     }
-    .hero-eyebrow::before { content: ''; width: 6px; height: 6px; background: var(--green-accent); border-radius: 50%; animation: pulse 2s ease infinite; }
-    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
+    .hero-eyebrow::before {
+      content: ''; width: 6px; height: 6px;
+      background: var(--green-soft); border-radius: 50%;
+      animation: pulse 2.2s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.35;transform:scale(.7)} }
 
     .hero h1 {
-      font-family: 'Fraunces', serif; font-weight: 900;
-      font-size: clamp(3rem, 5.5vw, 5.2rem);
-      line-height: 0.92; letter-spacing: -0.04em; color: var(--green);
-      margin-bottom: 1.2rem;
+      font-family: 'Fraunces', serif;
+      font-weight: 900;
+      font-size: clamp(3rem, 5.8vw, 5.6rem);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      color: var(--green);
+      margin-bottom: 1.4rem;
       animation: fadeUp 0.8s 0.1s ease both;
     }
-    .hero h1 em { font-style: italic; font-weight: 300; color: var(--green-accent); }
+    .hero h1 em {
+      font-style: italic;
+      font-weight: 300;
+      color: var(--green-soft);
+    }
 
     .hero-sub {
-      font-size: 1rem; font-weight: 300; color: var(--green-dark);
-      opacity: 0.65; line-height: 1.7; max-width: 420px;
+      font-size: 1.08rem;
+      color: var(--muted);
+      line-height: 1.65;
+      max-width: 500px;
+      margin-bottom: 2.4rem;
       animation: fadeUp 0.8s 0.2s ease both;
     }
 
-    /* IMAGE COLLAGE */
-    .hero-right { position: relative; height: 520px; animation: fadeUp 0.9s 0.15s ease both; }
-
-    .img-card { position: absolute; border-radius: 2rem; overflow: hidden; box-shadow: 0 20px 60px rgba(28,69,56,0.18); }
-    .img-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .img-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(160deg, rgba(28,69,56,0.05) 0%, rgba(28,69,56,0.2) 100%); mix-blend-mode: multiply; }
-
-    .img-card-main { width: 68%; height: 370px; top: 0; right: 0; animation: float1 7s ease-in-out infinite alternate; }
-    .img-card-sm1  { width: 46%; height: 210px; bottom: 0; left: 0; animation: float2 9s ease-in-out infinite alternate; }
-    .img-card-sm2  { width: 36%; height: 150px; bottom: 60px; right: 0; animation: float3 8s ease-in-out infinite alternate; }
-
-    .img-tag {
-      position: absolute; bottom: 14px; left: 14px;
-      background: rgba(251,249,244,0.92); backdrop-filter: blur(10px);
-      border-radius: 100px; padding: 0.3rem 0.8rem;
-      font-size: 0.68rem; font-weight: 500; color: var(--green);
-      letter-spacing: 0.06em; z-index: 2;
+    /* Waitlist card */
+    .waitlist {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      border-radius: 1.5rem;
+      padding: 1.75rem;
+      box-shadow: 0 6px 40px rgba(28, 69, 56, 0.08), 0 1px 0 rgba(255, 255, 255, 0.9) inset;
+      max-width: 500px;
+      animation: fadeUp 0.8s 0.3s ease both;
     }
-
-    @keyframes float1 { from{transform:translateY(0) rotate(-1deg)} to{transform:translateY(-12px) rotate(0.5deg)} }
-    @keyframes float2 { from{transform:translateY(0) rotate(1.5deg)} to{transform:translateY(-9px) rotate(-0.5deg)} }
-    @keyframes float3 { from{transform:translateY(0) rotate(-0.5deg)} to{transform:translateY(-7px) rotate(1deg)} }
-
-    /* FORM */
-    .form-section { margin: 3.5rem 0 0; animation: fadeUp 0.8s 0.35s ease both; }
-    .form-card {
-      background: rgba(255,255,255,0.65); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255,255,255,0.85); border-radius: 2rem; padding: 2rem;
-      box-shadow: 0 8px 50px rgba(28,69,56,0.08), 0 1px 0 rgba(255,255,255,0.9) inset;
+    .waitlist-label {
+      display: block;
+      font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--green); margin-bottom: 0.9rem;
     }
-    .form-label { display: block; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green); margin-bottom: 0.8rem; }
-    .input-row { display: flex; gap: 0.6rem; }
+    .input-row { display: flex; gap: 0.55rem; }
     .input-field {
-      flex: 1; font-family: 'DM Sans', sans-serif; font-size: 0.95rem;
-      background: var(--bg); border: 1.5px solid rgba(28,69,56,0.15);
-      border-radius: 1.1rem; padding: 0.8rem 1.15rem; color: var(--green-dark); outline: none;
+      flex: 1;
+      font-family: 'Inter', sans-serif; font-size: 0.95rem;
+      background: var(--bg);
+      border: 1.5px solid rgba(28, 69, 56, 0.12);
+      border-radius: 0.9rem;
+      padding: 0.85rem 1.1rem;
+      color: var(--ink); outline: none;
       transition: border-color .2s, box-shadow .2s;
     }
-    .input-field::placeholder { color: rgba(20,51,41,0.32); }
-    .input-field:focus { border-color: var(--green-accent); box-shadow: 0 0 0 3px rgba(45,106,79,0.12); }
+    .input-field::placeholder { color: rgba(20, 51, 41, 0.32); }
+    .input-field:focus { border-color: var(--green-soft); box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.12); }
+
     .btn-join {
-      font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 500;
-      background: var(--green); color: var(--cream); border: none;
-      border-radius: 1.1rem; padding: 0.8rem 1.5rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.88rem; font-weight: 500;
+      background: var(--green); color: var(--cream);
+      border: none; border-radius: 0.9rem;
+      padding: 0.85rem 1.5rem;
       cursor: pointer; white-space: nowrap;
       transition: background .2s, transform .15s, box-shadow .2s;
-      box-shadow: 0 4px 18px rgba(28,69,56,0.28);
+      box-shadow: 0 4px 18px rgba(28, 69, 56, 0.24);
     }
-    .btn-join:hover { background: var(--green-accent); transform: translateY(-1px); box-shadow: 0 8px 28px rgba(28,69,56,0.32); }
+    .btn-join:hover { background: var(--green-soft); transform: translateY(-1px); box-shadow: 0 8px 28px rgba(28, 69, 56, 0.3); }
     .btn-join:active { transform: translateY(0); }
     .btn-join:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-    .form-note { margin-top: 0.8rem; font-size: 0.73rem; color: rgba(20,51,41,0.4); }
 
-    .success-state { display: none; text-align: center; padding: 0.5rem 0; }
-    .success-icon { width: 50px; height: 50px; background: var(--green); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; animation: popIn .4s cubic-bezier(.175,.885,.32,1.275) both; }
-    .success-icon svg { color: var(--cream); }
+    .form-note {
+      margin-top: 0.9rem; font-size: 0.75rem;
+      color: var(--muted-2);
+    }
+
+    /* Success state replaces the form in-place */
+    .success-state { display: none; text-align: center; padding: 0.2rem 0; }
+    .success-icon {
+      width: 48px; height: 48px; background: var(--green);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 0.9rem; color: var(--cream);
+      animation: popIn .4s cubic-bezier(.175,.885,.32,1.275) both;
+    }
     @keyframes popIn { from{transform:scale(0);opacity:0} to{transform:scale(1);opacity:1} }
-    .success-title { font-family: 'Fraunces', serif; font-weight: 700; font-size: 1.35rem; color: var(--green); margin-bottom: 0.35rem; }
-    .success-sub { font-size: 0.85rem; color: rgba(20,51,41,0.5); }
+    .success-title { font-family: 'Fraunces', serif; font-weight: 700; font-size: 1.3rem; color: var(--green); margin-bottom: 0.3rem; }
+    .success-sub { font-size: 0.88rem; color: var(--muted); }
 
-    .join-count { margin-top: 1.2rem; font-size: 0.76rem; color: rgba(20,51,41,0.42); display: flex; align-items: center; gap: 0.5rem; }
-    .avatars { display: flex; }
-    .avatar { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--bg); margin-left: -6px; font-size: 0.6rem; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--cream); }
-    .avatar:first-child { margin-left: 0; }
-    .av1{background:#2d6a4f} .av2{background:#1c4538} .av3{background:#3a7d5c} .av4{background:#143329}
-
-    /* PROOF CARDS */
-    .proof-strip {
-      margin: 5rem 0;
-      display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem;
-      animation: fadeUp 0.8s 0.3s ease both;
+    /* ── Hero visual — faux app preview ─────────────────────
+       A stylised snippet of Gidsly's Applications page. Pure
+       HTML/CSS — no real screenshot to maintain, stays in sync with
+       the brand, works at every resolution. Same card language as
+       the app: rounded-2xl, subtle shadows, cream badges.           */
+    .hero-visual {
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+      animation: fadeUp 0.9s 0.25s ease both;
+      padding: 1rem;
     }
-    .proof-card {
-      background: rgba(255,255,255,0.55); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255,255,255,0.8); border-radius: 2.2rem; overflow: hidden;
-      box-shadow: 0 4px 30px rgba(28,69,56,0.07);
-      transition: transform .3s, box-shadow .3s;
-    }
-    .proof-card:hover { transform: translateY(-6px); box-shadow: 0 16px 50px rgba(28,69,56,0.13); }
-    .proof-img-wrap { overflow: hidden; position: relative; }
-    .proof-img-wrap::after { content:''; position:absolute; inset:0; background: linear-gradient(to bottom, transparent 50%, rgba(28,69,56,0.22) 100%); }
-    .proof-img { width: 100%; height: 200px; object-fit: cover; display: block; transition: transform .5s ease; }
-    .proof-card:hover .proof-img { transform: scale(1.04); }
-    .proof-body { padding: 1.4rem 1.5rem 1.6rem; }
-    .proof-feature-tag { display: inline-block; background: var(--cream); color: var(--green-accent); font-size: 0.65rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.3rem 0.75rem; border-radius: 100px; margin-bottom: 0.75rem; }
-    .proof-title { font-family: 'Fraunces', serif; font-weight: 700; font-size: 1.1rem; color: var(--green); line-height: 1.25; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
-    .proof-desc { font-size: 0.8rem; color: rgba(20,51,41,0.55); line-height: 1.6; }
 
-    /* FEATURES ROW */
-    .features-section { margin: 2rem 0 5rem; }
-    .section-label { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(20,51,41,0.38); margin-bottom: 1.6rem; text-align: center; }
-    .features-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 1rem; animation: fadeUp 0.8s 0.4s ease both; }
-    .feature-card {
-      background: rgba(255,255,255,0.55); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255,255,255,0.75); border-radius: 2rem; padding: 1.5rem 1.1rem 1.4rem;
-      text-align: center; transition: transform .25s, box-shadow .25s;
-      box-shadow: 0 2px 18px rgba(28,69,56,0.05);
+    .app-preview {
+      width: 100%;
+      background: #fff;
+      border-radius: 1.6rem;
+      box-shadow:
+        0 30px 80px rgba(28, 69, 56, 0.18),
+        0 1px 0 rgba(255, 255, 255, 0.9) inset;
+      overflow: hidden;
+      transform: perspective(1400px) rotateY(-4deg) rotateX(2deg);
+      transform-origin: center center;
+      transition: transform 0.6s ease;
     }
-    .feature-card:hover { transform: translateY(-5px); box-shadow: 0 14px 40px rgba(28,69,56,0.12); }
-    .feature-icon { width: 42px; height: 42px; background: var(--cream); border-radius: 1rem; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.85rem; }
-    .feature-icon svg { width: 19px; height: 19px; stroke: var(--green); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-    .feature-name { font-family: 'Fraunces', serif; font-weight: 700; font-size: 0.83rem; color: var(--green); line-height: 1.2; margin-bottom: 0.35rem; }
-    .feature-desc { font-size: 0.7rem; color: rgba(20,51,41,0.48); line-height: 1.5; }
+    .app-preview:hover { transform: perspective(1400px) rotateY(-2deg) rotateX(1deg); }
 
-    /* QUOTE BAND */
-    .quote-band {
-      background: var(--green); border-radius: 3rem; margin: 0 0 5rem;
-      padding: 4rem 3.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;
+    .app-preview-chrome {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      background: #fbf9f4;
+      border-bottom: 1px solid rgba(28, 69, 56, 0.06);
+    }
+    .app-preview-chrome .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .app-preview-chrome .dot:nth-child(1) { background: #ef9d8a; }
+    .app-preview-chrome .dot:nth-child(2) { background: #e8cf74; }
+    .app-preview-chrome .dot:nth-child(3) { background: #9ad0a8; }
+    .app-preview-chrome .url {
+      flex: 1; text-align: center;
+      font-size: 0.7rem; color: rgba(20, 51, 41, 0.35);
+      font-family: 'Inter', sans-serif;
+    }
+
+    .app-preview-body {
+      padding: 1.5rem 1.4rem 1.7rem;
+      background: #fbf9f4;
+    }
+    .app-preview-head {
+      display: flex; align-items: baseline; justify-content: space-between;
+      margin-bottom: 1.1rem;
+    }
+    .app-preview-head h4 {
+      font-family: 'Fraunces', serif; font-weight: 700;
+      font-size: 1.15rem; color: var(--green);
+      letter-spacing: -0.02em;
+    }
+    .app-preview-head span {
+      font-size: 0.68rem; font-weight: 600;
+      color: rgba(20, 51, 41, 0.4);
+      text-transform: uppercase; letter-spacing: 0.15em;
+    }
+
+    .app-row {
+      display: flex; align-items: center; gap: 0.9rem;
+      background: #fff;
+      border: 1px solid rgba(28, 69, 56, 0.05);
+      border-radius: 1rem;
+      padding: 0.85rem 1rem;
+      margin-bottom: 0.55rem;
+    }
+    .app-row:last-child { margin-bottom: 0; }
+    .app-avatar {
+      width: 36px; height: 36px; flex-shrink: 0;
+      border-radius: 9px;
+      background: var(--green); color: var(--cream);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Fraunces', serif; font-weight: 700;
+      font-size: 0.95rem;
+    }
+    .app-info { flex: 1; min-width: 0; }
+    .app-role {
+      font-size: 0.88rem; font-weight: 600;
+      color: var(--green);
+      letter-spacing: -0.01em;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .app-co {
+      font-size: 0.72rem;
+      color: rgba(20, 51, 41, 0.5);
+      margin-top: 0.15rem;
+    }
+    .app-stage {
+      flex-shrink: 0;
+      font-size: 0.64rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 0.32rem 0.65rem;
+      border-radius: 999px;
+    }
+    .stage-discovery  { background: rgba(28, 69, 56, 0.08);  color: var(--green); }
+    .stage-interview  { background: rgba(45, 106, 79, 0.12); color: #1f5940; }
+    .stage-offer      { background: #e8dfb5;                 color: #7d6a1a; }
+    .stage-applied    { background: rgba(28, 69, 56, 0.08);  color: var(--green-soft); }
+
+    /* Floating status chip — tiny detail that implies motion */
+    .app-preview-float {
+      position: absolute;
+      bottom: -12px; right: -12px;
+      background: #fff;
+      border-radius: 1rem;
+      padding: 0.7rem 0.9rem;
+      box-shadow: 0 10px 30px rgba(28, 69, 56, 0.15);
+      display: flex; align-items: center; gap: 0.55rem;
+      font-size: 0.72rem; color: var(--green);
+      font-weight: 600;
+      animation: floatIn 4s ease-in-out infinite alternate;
+    }
+    .app-preview-float::before {
+      content: ''; width: 8px; height: 8px; border-radius: 50%;
+      background: #2d6a4f;
+      box-shadow: 0 0 0 4px rgba(45, 106, 79, 0.18);
+    }
+    @keyframes floatIn {
+      from { transform: translateY(0); }
+      to   { transform: translateY(-6px); }
+    }
+
+    /* ── FEATURES — three-up, benefit-first ───────────────── */
+    .features {
+      padding: 2rem 0 5rem;
+    }
+    .section-eyebrow {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--muted-2);
+      text-align: center;
+      margin-bottom: 0.8rem;
+    }
+    .section-title {
+      font-family: 'Fraunces', serif;
+      font-weight: 700;
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      line-height: 1.1; letter-spacing: -0.02em;
+      color: var(--green);
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    /* ── Feature tabs ───────────────────────────────────────
+       Three cards at top act as toggles. Clicking one activates
+       the matching panel below, which reveals a value-first
+       headline, body copy, and a small feature-specific mockup.  */
+    .feat-tabs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.85rem;
+      margin-bottom: 1.75rem;
+    }
+    .feat-tab {
+      position: relative;
+      overflow: hidden;            /* clips the progress bar to rounded corners */
+      font-family: inherit;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.55);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      border: 1.5px solid transparent;
+      border-radius: 1.4rem;
+      padding: 1.4rem 1.3rem;
+      cursor: pointer;
+      transition: transform .25s, box-shadow .25s, border-color .25s, background .25s;
+      box-shadow: 0 2px 18px rgba(28, 69, 56, 0.04);
+      color: inherit;
+    }
+
+    /* Thin progress bar at the bottom of the active tab — fills left→right
+       over 10s during auto-rotation. JS toggles the `running` class to
+       replay the animation on each tab change, and clears all of them
+       when the user clicks (taking manual control). */
+    .feat-tab-progress {
+      position: absolute;
+      bottom: 0; left: 0;
+      height: 2px;
+      width: 0;
+      background: var(--green-soft);
+      opacity: 0;
+    }
+    .feat-tab.active .feat-tab-progress.running {
+      width: 100%;
+      opacity: 0.75;
+      transition: width 10s linear, opacity 0.3s;
+    }
+    .feat-tab:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(28, 69, 56, 0.08);
+    }
+    .feat-tab.active {
+      background: #fff;
+      border-color: rgba(28, 69, 56, 0.25);
+      box-shadow: 0 8px 32px rgba(28, 69, 56, 0.1);
+    }
+    .feat-tab-row {
+      display: flex; align-items: center; gap: 0.7rem;
+      margin-bottom: 0.45rem;
+    }
+    .feat-icon {
+      width: 34px; height: 34px;
+      background: var(--cream);
+      border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--green);
+      flex-shrink: 0;
+      transition: background .25s;
+    }
+    .feat-tab.active .feat-icon { background: var(--green); color: var(--cream); }
+    .feat-icon svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .feat-title {
+      font-family: 'Fraunces', serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      line-height: 1.2; letter-spacing: -0.015em;
+      color: var(--green);
+    }
+    .feat-desc {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    /* ── Feature detail panel ─────────────────────────────── */
+    .feat-detail {
+      position: relative;
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      border-radius: 2rem;
+      padding: 2.5rem;
+      box-shadow: 0 6px 40px rgba(28, 69, 56, 0.08);
+      min-height: 340px;
+    }
+    .feat-panel {
+      display: none;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+      opacity: 0;
+      transition: opacity .3s ease;
+    }
+    .feat-panel.active { display: grid; opacity: 1; animation: fadePanel .4s ease both; }
+    @keyframes fadePanel { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    .feat-panel-eyebrow {
+      font-size: 0.7rem; font-weight: 600;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--muted-2);
+      margin-bottom: 0.7rem;
+    }
+    .feat-panel h4 {
+      font-family: 'Fraunces', serif;
+      font-weight: 700;
+      font-size: clamp(1.5rem, 2.4vw, 2rem);
+      line-height: 1.15; letter-spacing: -0.02em;
+      color: var(--green);
+      margin-bottom: 1rem;
+    }
+    .feat-panel p {
+      font-size: 0.95rem; color: var(--muted);
+      line-height: 1.7; max-width: 420px;
+    }
+
+    /* ── Panel 1: Timeline mockup ─────────────────────────── */
+    .panel-timeline {
+      background: #fff;
+      border-radius: 1.3rem;
+      padding: 1.5rem 1.6rem;
+      box-shadow: 0 10px 30px rgba(28, 69, 56, 0.08);
+      border: 1px solid rgba(28, 69, 56, 0.05);
+    }
+    .panel-timeline-head {
+      display: flex; align-items: center; gap: 0.7rem;
+      padding-bottom: 0.9rem; margin-bottom: 1.1rem;
+      border-bottom: 1px solid rgba(28, 69, 56, 0.06);
+    }
+    .panel-timeline-head .app-avatar { width: 30px; height: 30px; font-size: 0.85rem; border-radius: 7px; }
+    .panel-timeline-head .title {
+      font-size: 0.88rem; font-weight: 600;
+      color: var(--green);
+    }
+    .panel-timeline-head .sub {
+      font-size: 0.7rem;
+      color: rgba(20, 51, 41, 0.5);
+    }
+    .tl-item {
+      display: grid; grid-template-columns: 14px 1fr auto; gap: 0.85rem;
+      padding: 0.4rem 0;
+      align-items: center;
+      position: relative;
+    }
+    .tl-item::before {
+      content: ''; position: absolute; left: 6px; top: 18px; bottom: -8px;
+      width: 2px; background: rgba(28, 69, 56, 0.12);
+    }
+    .tl-item:last-child::before { display: none; }
+    .tl-dot {
+      width: 14px; height: 14px; border-radius: 50%;
+      background: var(--green);
+      border: 3px solid #fff;
+      box-shadow: 0 0 0 1.5px var(--green);
+    }
+    .tl-dot.upcoming {
+      background: #fff; box-shadow: 0 0 0 1.5px rgba(28, 69, 56, 0.3);
+    }
+    .tl-label {
+      font-size: 0.82rem; font-weight: 500;
+      color: var(--green);
+    }
+    .tl-item.upcoming .tl-label { color: rgba(20, 51, 41, 0.45); font-style: italic; }
+    .tl-date {
+      font-size: 0.7rem; color: var(--muted-2);
+      font-variant-numeric: tabular-nums;
+    }
+    .tl-current {
+      font-size: 0.58rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--green-soft);
+      background: rgba(45, 106, 79, 0.12);
+      padding: 0.15rem 0.5rem; border-radius: 999px;
+      margin-left: 0.4rem;
+    }
+
+    /* ── Panel 2: Tailor mockup ───────────────────────────── */
+    .panel-tailor {
+      display: flex; flex-direction: column; gap: 0.7rem;
+    }
+    .tailor-card {
+      background: #fff;
+      border-radius: 1.1rem;
+      padding: 1rem 1.15rem;
+      box-shadow: 0 6px 20px rgba(28, 69, 56, 0.06);
+      border: 1px solid rgba(28, 69, 56, 0.05);
+      position: relative;
+    }
+    .tailor-card-label {
+      font-size: 0.6rem; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted-2);
+      margin-bottom: 0.45rem;
+    }
+    .tailor-card-body {
+      font-size: 0.85rem; line-height: 1.55;
+      color: var(--ink);
+    }
+    .tailor-card .hilite {
+      background: rgba(232, 223, 181, 0.7);
+      border-radius: 3px;
+      padding: 0 3px;
+      color: #7d6a1a;
+      font-weight: 500;
+    }
+    .tailor-arrow {
+      align-self: center;
+      color: var(--green-soft);
+      font-size: 1.3rem;
+      line-height: 1;
+      opacity: 0.6;
+      padding: 0.1rem 0;
+    }
+    .tailor-chips {
+      display: flex; flex-wrap: wrap; gap: 0.35rem;
+      padding-top: 0.6rem;
+    }
+    .tailor-chip {
+      font-size: 0.65rem; font-weight: 600;
+      color: var(--green);
+      background: var(--cream);
+      padding: 0.25rem 0.55rem;
+      border-radius: 999px;
+      letter-spacing: 0.03em;
+    }
+
+    /* "Also tailored" breadth indicator beneath the mockup. Muted on
+       purpose — the primary visual story is the CV before/after above;
+       this row quietly signals cover letters + pitches are also handled. */
+    .tailor-also {
+      display: flex; align-items: center; flex-wrap: wrap;
+      gap: 0.5rem;
+      padding-top: 0.4rem;
+    }
+    .tailor-also-label {
+      font-size: 0.62rem; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted-2);
+      margin-right: 0.2rem;
+    }
+    .tailor-also-chip {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      font-size: 0.72rem; font-weight: 500;
+      color: var(--green);
+      background: rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(28, 69, 56, 0.1);
+      padding: 0.3rem 0.65rem;
+      border-radius: 999px;
+    }
+    .tailor-also-chip svg {
+      width: 11px; height: 11px;
+      stroke: currentColor; fill: none;
+      stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+      opacity: 0.7;
+    }
+
+    /* ── Panel 4: Network mockup ──────────────────────────── */
+    .panel-network {
+      display: flex; flex-direction: column; gap: 0.9rem;
+    }
+    .network-card {
+      background: #fff;
+      border-radius: 1.3rem;
+      padding: 1.25rem 1.4rem 1.4rem;
+      box-shadow: 0 10px 30px rgba(28, 69, 56, 0.08);
+      border: 1px solid rgba(28, 69, 56, 0.05);
+    }
+    .network-head {
+      display: flex; align-items: center; gap: 0.75rem;
+      padding-bottom: 0.9rem; margin-bottom: 1rem;
+      border-bottom: 1px solid rgba(28, 69, 56, 0.06);
+    }
+    .network-avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--green-soft); color: var(--cream);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Fraunces', serif; font-weight: 700; font-size: 0.95rem;
+      flex-shrink: 0;
+    }
+    .network-name {
+      font-size: 0.95rem; font-weight: 600;
+      color: var(--green);
+    }
+    .network-role {
+      font-size: 0.72rem; color: rgba(20, 51, 41, 0.5);
+      margin-top: 0.1rem;
+    }
+    .network-chip {
+      margin-left: auto;
+      font-size: 0.62rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--green-soft);
+      background: rgba(45, 106, 79, 0.1);
+      padding: 0.3rem 0.6rem; border-radius: 999px;
+    }
+    .network-links {
+      display: flex; flex-direction: column; gap: 0.55rem;
+    }
+    .network-link {
+      display: flex; align-items: center; gap: 0.6rem;
+      font-size: 0.78rem;
+    }
+    .network-link .link-co {
+      color: var(--green); font-weight: 500;
+      flex: 1; min-width: 0;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .network-link .link-co em {
+      font-style: normal; color: rgba(20, 51, 41, 0.5); font-weight: 400;
+    }
+    .network-link .link-stage {
+      flex-shrink: 0;
+      font-size: 0.6rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 0.25rem 0.55rem; border-radius: 999px;
+    }
+    .network-link .net-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: rgba(28, 69, 56, 0.25);
+      flex-shrink: 0;
+    }
+    .network-insight {
+      display: flex; align-items: flex-start; gap: 0.55rem;
+      padding: 0.8rem 1rem;
+      background: var(--cream);
+      border-radius: 1rem;
+      font-size: 0.78rem; font-weight: 500;
+      color: var(--green);
+      line-height: 1.45;
+    }
+    .network-insight::before {
+      content: '✦';
+      color: var(--green-soft); font-size: 1rem;
+      line-height: 1;
+      margin-top: 0.05rem;
+      flex-shrink: 0;
+    }
+
+    /* ── Panel 3: Chat mockup ─────────────────────────────── */
+    .panel-chat {
+      background: #fff;
+      border-radius: 1.3rem;
+      padding: 1.4rem 1.5rem 1.3rem;
+      box-shadow: 0 10px 30px rgba(28, 69, 56, 0.08);
+      border: 1px solid rgba(28, 69, 56, 0.05);
+      display: flex; flex-direction: column; gap: 0.9rem;
+    }
+    .chat-msg {
+      display: flex; gap: 0.65rem; align-items: flex-start;
+    }
+    .chat-avatar {
+      width: 28px; height: 28px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.72rem; font-weight: 700;
+      flex-shrink: 0;
+    }
+    .chat-avatar.user { background: rgba(28, 69, 56, 0.08); color: var(--green); }
+    .chat-avatar.gidsly { background: var(--green); color: var(--cream); font-family: 'Libre Baskerville', serif; font-size: 0.85rem; }
+    .chat-body { flex: 1; min-width: 0; }
+    .chat-name {
+      font-size: 0.68rem; font-weight: 600;
+      color: var(--muted-2);
+      margin-bottom: 0.2rem;
+      letter-spacing: 0.04em;
+    }
+    .chat-text {
+      font-size: 0.85rem; line-height: 1.55;
+      color: var(--ink);
+    }
+    .chat-voice {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      margin-top: 0.55rem;
+      font-size: 0.68rem; font-weight: 500;
+      color: var(--green-soft);
+    }
+    .chat-voice svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+    /* ── WHY band — warm, human, no fake attribution ──────── */
+    .why {
+      background: var(--green);
+      border-radius: 2.2rem;
+      padding: 4rem 3rem;
+      margin-bottom: 5rem;
       position: relative; overflow: hidden;
-      animation: fadeUp 0.8s 0.3s ease both;
     }
-    .quote-band::before { content: '\201C'; position: absolute; top: -1.5rem; left: 2rem; font-family: 'Fraunces', serif; font-size: 14rem; line-height: 1; color: rgba(245,227,204,0.07); pointer-events: none; }
-    .quote-text { font-family: 'Fraunces', serif; font-style: italic; font-weight: 300; font-size: clamp(1.4rem, 2.5vw, 1.9rem); color: var(--cream); line-height: 1.35; letter-spacing: -0.02em; }
-    .quote-author { margin-top: 1.2rem; font-size: 0.78rem; font-weight: 500; color: rgba(245,227,204,0.48); letter-spacing: 0.06em; }
-    .quote-img-wrap { border-radius: 2rem; overflow: hidden; height: 280px; position: relative; }
-    .quote-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
-    .quote-img-wrap::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(28,69,56,0.3) 0%, transparent 60%); }
-
-    /* BOTTOM STRIP */
-    .bottom-strip {
-      background: var(--green); border-radius: 3rem 3rem 0 0;
-      padding: 3.5rem 3rem; display: flex; align-items: center; justify-content: space-between; gap: 2rem;
-      position: relative; overflow: hidden;
+    .why::before {
+      content: '';
+      position: absolute; top: -120px; right: -80px;
+      width: 340px; height: 340px;
+      border-radius: 50%;
+      background: rgba(245, 227, 204, 0.05);
+      pointer-events: none;
     }
-    .bottom-strip::before { content:''; position:absolute; top:-80px; right:-80px; width:300px; height:300px; background:rgba(245,227,204,0.05); border-radius:50%; }
-    .strip-tagline { font-family:'Fraunces',serif; font-weight:900; font-size:clamp(1.5rem,3vw,2.2rem); color:var(--cream); line-height:1.1; letter-spacing:-0.03em; margin-bottom:.4rem; }
-    .strip-sub { font-size:.82rem; color:rgba(245,227,204,0.48); }
-    .strip-links { display:flex; gap:1.5rem; align-items:center; flex-shrink:0; }
-    .strip-link { font-size:.78rem; color:rgba(245,227,204,0.5); text-decoration:none; transition:color .2s; }
-    .strip-link:hover { color:var(--cream); }
-
-    @keyframes fadeUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
-
-    /* RESPONSIVE */
-    @media(max-width:900px) {
-      .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
-      .hero-right { height: 360px; }
-      .img-card-main { width: 72%; height: 280px; }
-      .img-card-sm1 { width: 50%; height: 180px; }
-      .img-card-sm2 { width: 40%; height: 130px; }
-      .proof-strip { grid-template-columns: 1fr 1fr; }
-      .proof-strip .proof-card:last-child { grid-column: 1/-1; }
-      .features-grid { grid-template-columns: repeat(3,1fr); }
-      .quote-band { grid-template-columns: 1fr; }
-      .quote-img-wrap { height: 220px; }
+    .why-inner {
+      position: relative; z-index: 1;
+      max-width: 680px; margin: 0 auto; text-align: center;
     }
-    @media(max-width:640px) {
-      .hero h1 { font-size: 3rem; }
-      .proof-strip { grid-template-columns: 1fr; }
-      .proof-strip .proof-card:last-child { grid-column: auto; }
-      .features-grid { grid-template-columns: repeat(2,1fr); }
-      .features-grid .feature-card:last-child { grid-column: 1/-1; }
-      .input-row { flex-direction: column; }
-      .bottom-strip { flex-direction:column; text-align:center; border-radius:2rem 2rem 0 0; }
-      .strip-links { justify-content:center; }
-      .quote-band { padding: 2.5rem 2rem; }
+    .why-eyebrow {
+      display: inline-block;
+      font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: rgba(245, 227, 204, 0.55);
+      margin-bottom: 1.2rem;
+    }
+    .why-text {
+      font-family: 'Fraunces', serif;
+      font-weight: 300; font-style: italic;
+      font-size: clamp(1.3rem, 2.3vw, 1.8rem);
+      line-height: 1.4; letter-spacing: -0.015em;
+      color: var(--cream);
+    }
+    .why-text strong { font-weight: 700; font-style: normal; }
+
+    /* ── CLOSING CTA ──────────────────────────────────────── */
+    .close-cta {
+      text-align: center;
+      padding: 0 0 5rem;
+    }
+    .close-title {
+      font-family: 'Fraunces', serif;
+      font-weight: 900;
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      line-height: 1.05; letter-spacing: -0.03em;
+      color: var(--green);
+      margin-bottom: 0.6rem;
+    }
+    .close-sub {
+      font-size: 1rem; color: var(--muted);
+      max-width: 460px; margin: 0 auto 2.2rem;
+    }
+    .close-cta .waitlist { margin: 0 auto; }
+
+    /* ── CONTACT section ─────────────────────────────────── */
+    .contact-section {
+      padding: 1rem 0 5rem;
+    }
+    .contact-inner {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      border-radius: 2rem;
+      padding: 3rem 2.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 3.5rem;
+      align-items: start;
+      box-shadow: 0 6px 40px rgba(28, 69, 56, 0.07);
+    }
+    .contact-copy h3 {
+      font-family: 'Fraunces', serif;
+      font-weight: 900;
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      line-height: 1.1; letter-spacing: -0.025em;
+      color: var(--green);
+      margin-bottom: 0.7rem;
+    }
+    .contact-copy p {
+      font-size: 0.95rem; color: var(--muted); line-height: 1.6;
+      max-width: 320px;
+    }
+    .contact-copy .fallback {
+      margin-top: 1.4rem; font-size: 0.8rem;
+      color: var(--muted-2);
+    }
+    .contact-copy .fallback a {
+      color: var(--green-soft);
+      text-decoration: none;
+      border-bottom: 1px dotted currentColor;
+      transition: color .2s;
+    }
+    .contact-copy .fallback a:hover { color: var(--green); }
+
+    .contact-form { display: flex; flex-direction: column; gap: 0.9rem; }
+    .contact-field { display: flex; flex-direction: column; gap: 0.35rem; }
+    .contact-field label {
+      font-size: 0.7rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--green);
+    }
+    .contact-field label .optional {
+      font-weight: 400; color: var(--muted-2);
+      letter-spacing: 0.05em; text-transform: none;
+    }
+    .contact-field input,
+    .contact-field textarea {
+      font-family: 'Inter', sans-serif; font-size: 0.95rem;
+      background: var(--bg);
+      border: 1.5px solid rgba(28, 69, 56, 0.12);
+      border-radius: 0.9rem;
+      padding: 0.85rem 1.1rem;
+      color: var(--ink); outline: none;
+      transition: border-color .2s, box-shadow .2s;
+      resize: vertical;
+    }
+    .contact-field input::placeholder,
+    .contact-field textarea::placeholder { color: rgba(20, 51, 41, 0.32); }
+    .contact-field input:focus,
+    .contact-field textarea:focus {
+      border-color: var(--green-soft);
+      box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.12);
+    }
+    .contact-field textarea { min-height: 110px; font-family: inherit; }
+
+    .contact-submit {
+      align-self: flex-start;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.88rem; font-weight: 500;
+      background: var(--green); color: var(--cream);
+      border: none; border-radius: 0.9rem;
+      padding: 0.85rem 1.8rem;
+      cursor: pointer; white-space: nowrap;
+      transition: background .2s, transform .15s, box-shadow .2s;
+      box-shadow: 0 4px 18px rgba(28, 69, 56, 0.24);
+    }
+    .contact-submit:hover { background: var(--green-soft); transform: translateY(-1px); box-shadow: 0 8px 28px rgba(28, 69, 56, 0.3); }
+    .contact-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    .contact-success {
+      display: none; padding: 1rem 0;
+    }
+    .contact-success .success-icon { width: 44px; height: 44px; margin-bottom: 0.8rem; }
+    .contact-success .success-title { font-family: 'Fraunces', serif; font-weight: 700; font-size: 1.25rem; color: var(--green); margin-bottom: 0.25rem; }
+    .contact-success .success-sub { font-size: 0.88rem; color: var(--muted); }
+
+    /* ── FOOTER ──────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid rgba(28, 69, 56, 0.08);
+      padding: 2.5rem 0 3rem;
+      color: var(--muted-2);
+      font-size: 0.8rem;
+    }
+    .footer-row {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1.2rem;
+    }
+    .footer-brand { display: flex; align-items: center; gap: 0.55rem; }
+    .footer-brand .brand-mark { width: 22px; height: 22px; border-radius: 5px; }
+    .footer-brand .brand-word { font-size: 1.05rem; }
+    .footer-links { display: flex; gap: 1.6rem; flex-wrap: wrap; }
+    .footer-links a {
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .footer-links a:hover { color: var(--green); }
+
+    /* Right-hand footer cluster: social icons + legal links, same row. */
+    .footer-right {
+      display: flex; align-items: center;
+      gap: 1.6rem; flex-wrap: wrap; justify-content: flex-end;
+    }
+    .footer-social {
+      display: flex; align-items: center; gap: 0.9rem;
+    }
+    .footer-social a {
+      display: flex; align-items: center; justify-content: center;
+      width: 32px; height: 32px;
+      color: var(--muted);
+      border-radius: 8px;
+      transition: color .2s, background .2s, transform .15s;
+    }
+    .footer-social a:hover {
+      color: var(--green);
+      background: rgba(28, 69, 56, 0.06);
+      transform: translateY(-1px);
+    }
+    .footer-social svg { width: 17px; height: 17px; display: block; }
+
+    .footer-note {
+      margin-top: 1.2rem;
+      font-size: 0.72rem;
+      color: var(--muted-2);
+    }
+
+    /* Language switcher — minimal pill buttons at the bottom of the
+       footer. Labels stay in each language's own tongue (Nederlands,
+       not Dutch). Only languages listed in AVAILABLE_LANGS are visible. */
+    .lang-switch {
+      display: inline-flex; gap: 0.25rem;
+      background: rgba(28, 69, 56, 0.04);
+      border: 1px solid rgba(28, 69, 56, 0.08);
+      border-radius: 999px;
+      padding: 0.2rem;
+    }
+    .lang-switch button {
+      font-family: inherit;
+      font-size: 0.72rem; font-weight: 500;
+      background: transparent; color: var(--muted);
+      border: none; cursor: pointer;
+      padding: 0.35rem 0.9rem; border-radius: 999px;
+      transition: background .2s, color .2s;
+    }
+    .lang-switch button:hover { color: var(--green); }
+    .lang-switch button.active {
+      background: #fff; color: var(--green);
+      box-shadow: 0 1px 4px rgba(28, 69, 56, 0.08);
+    }
+    .footer-bottom-row {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 1rem; flex-wrap: wrap;
+      margin-top: 1.2rem;
+    }
+
+    /* Animations */
+    @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+
+    /* ── Responsive ────────────────────────────────────────
+       Every single-column mobile grid uses `minmax(0, 1fr)` instead of
+       `1fr` to prevent the classic CSS Grid blowout where the intrinsic
+       content size forces the column wider than the viewport. */
+    /* Medium widths: tabs go 2×2 (4 across feels tight) */
+    @media (max-width: 1060px) and (min-width: 901px) {
+      .feat-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 900px) {
+      .hero-grid         { grid-template-columns: minmax(0, 1fr); gap: 2.5rem; }
+      .hero-visual       { max-width: 100%; margin: 0 auto; padding: 0.25rem 0; }
+      .feat-tabs         { grid-template-columns: minmax(0, 1fr); gap: 0.7rem; }
+      .feat-panel.active { grid-template-columns: minmax(0, 1fr); gap: 2rem; }
+      .feat-detail       { padding: 1.8rem; }
+      .why               { padding: 3rem 2rem; }
+      .contact-inner     { grid-template-columns: minmax(0, 1fr); gap: 2rem; padding: 2.5rem 2rem; }
+      /* Flatten the app-preview's 3D tilt on mobile — with less horizontal
+         room the rotation visually "punches through" the side of the hero. */
+      .app-preview       { transform: none; }
+      .app-preview:hover { transform: none; }
+    }
+    @media (max-width: 640px) {
+      .wrapper           { padding: 0 1.25rem; }         /* tighter gutters */
+      .hero              { padding: 3rem 0 4rem; }
+      .hero h1           { font-size: 2.7rem; }
+      .input-row         { flex-direction: column; }
+      .footer-row        { flex-direction: column; align-items: flex-start; }
+      .footer-right      { justify-content: flex-start; width: 100%; }
+      .feat-detail       { padding: 1.3rem; }
+      .why               { padding: 2.5rem 1.5rem; }
+      .contact-inner     { padding: 2rem 1.5rem; }
+      .close-cta         { padding: 0 0 3rem; }
+      .waitlist          { padding: 1.25rem; }
+      /* Nav pill: hide the date suffix on narrow screens so the pill fits
+         without wrapping. Full text still reads on tablets and above. */
+      .nav-badge-date    { display: none; }
+      .nav-badge         { font-size: 0.65rem; padding: 0.4rem 0.85rem; }
+      /* Tighter card padding so content isn't crowded against edges */
+      .feat-tab          { padding: 1.15rem 1.1rem; }
+      .app-preview-body  { padding: 1.2rem 1rem 1.3rem; }
+      .app-row           { padding: 0.7rem 0.85rem; gap: 0.7rem; }
+      .app-role          { font-size: 0.82rem; }
+      .app-co            { font-size: 0.68rem; }
+      .app-stage         { font-size: 0.58rem; padding: 0.28rem 0.55rem; }
+      .app-preview-float { bottom: -10px; right: 8px; font-size: 0.66rem; padding: 0.55rem 0.75rem; }
+      /* Timeline on the Pipeline panel */
+      .panel-timeline    { padding: 1.15rem 1.1rem; }
+      .tl-date           { font-size: 0.66rem; }
+      .tl-label          { font-size: 0.78rem; }
     }
   </style>
 </head>
 <body>
 
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <div class="orb orb-3"></div>
-
   <div class="wrapper">
 
-    <!-- NAV -->
+    <!-- NAV ────────────────────────────────────────────────── -->
     <nav>
-      <div class="logo">Gids<span>ly</span></div>
-      <div class="nav-badge">Coming Soon</div>
+      <a href="/" class="brand" aria-label="Gidsly home">
+        <!-- Exact same geometry as src/components/GidslyLogo.tsx in the app repo -->
+        <svg class="brand-mark" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="100" height="100" fill="#1c4538"/>
+          <text x="50" y="72" text-anchor="middle" fill="#f5e3cc"
+                style="font-family:'Libre Baskerville',serif;font-weight:700;font-size:75px;">G</text>
+        </svg>
+        <span class="brand-word">Gidsly</span>
+      </a>
+      <div class="nav-badge">
+        Private Beta<span class="nav-badge-date" data-i18n="nav.badgeDate"> · Spring 2026</span>
+      </div>
     </nav>
 
-    <!-- HERO -->
+    <!-- HERO ───────────────────────────────────────────────── -->
     <section class="hero">
-      <div class="hero-inner">
+      <div class="hero-grid">
 
-        <div class="hero-left">
-          <div class="hero-eyebrow">Private Beta — Limited Access</div>
-          <h1>Your Personal<br><em>Career</em><br>Companion.</h1>
-          <p class="hero-sub">Gidsly is your personal career companion — guiding you through every application, interview, and career decision with the power of AI.</p>
+        <div class="hero-copy">
+          <h1 data-i18n-html="hero.headline">The career companion<br>you <em>wish</em><br>you'd had.</h1>
+          <p class="hero-sub" data-i18n="hero.sub">
+            Gidsly keeps every application, interview, and career decision in one place — with honest coaching for the moments that aren't on a spreadsheet.
+          </p>
 
-          <div class="form-section">
-            <div class="form-card">
-              <div id="formDefault">
-                <label class="form-label">Join the Waitlist</label>
-                <div class="input-row">
-                  <input type="email" class="input-field" id="emailInput" placeholder="your@email.com" autocomplete="email"/>
-                  <button class="btn-join" id="joinBtn" onclick="handleJoin()">Get Early Access</button>
-                </div>
-                <p class="form-note">No spam, ever. Unsubscribe anytime.</p>
+          <!--
+            The hero no longer carries the full waitlist form — keeping the
+            hero tight pulls the "Built for the whole journey" section above
+            the fold on larger screens. Primary CTA anchor-scrolls to the
+            single remaining form down in the closing CTA section.
+          -->
+          <div class="hero-cta">
+            <a href="#waitlist" class="btn-primary" data-i18n="hero.ctaPrimary">Request early access</a>
+            <a href="#features" class="btn-ghost" data-i18n="hero.ctaSecondary">See how it works →</a>
+          </div>
+
+          <!--
+            The Loops submit machinery used to live inside the hero form.
+            It's moved alongside the sole remaining form in the closing CTA;
+            see the <iframe> and hidden <form id="loopsForm"> down there.
+          -->
+        </div>
+
+        <!-- HERO VISUAL — faux app sneak-peek ─────────────────
+             Stylised Applications page. Pure HTML/CSS; nothing
+             loaded from the actual app. Three sample rows convey
+             "this tracks your job search" at a glance.            -->
+        <div class="hero-visual" aria-hidden="true">
+          <div class="app-preview">
+            <div class="app-preview-chrome">
+              <span class="dot"></span>
+              <span class="dot"></span>
+              <span class="dot"></span>
+            </div>
+            <div class="app-preview-body">
+              <div class="app-preview-head">
+                <h4 data-i18n="hero.appPreview.title">Applications</h4>
+                <span data-i18n="hero.appPreview.count">3 active</span>
               </div>
-              <!-- Hidden iframe + form: submits to Loops without CORS issues -->
-              <iframe name="loops-hidden" style="display:none;"></iframe>
-              <form id="loopsForm"
-                action="https://app.loops.so/api/newsletter-form/cmmkyjbmr0c0i0i2lkd5ia0on"
-                method="POST"
-                target="loops-hidden"
-                style="display:none;">
-                <input type="email" name="email" id="loopsEmail"/>
-              </form>
-              <div class="success-state" id="formSuccess">
-                <div class="success-icon">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+
+              <!--
+                Three rows telling the journey: Discovery → In Process → Closing.
+                Distinct roles / industries / cities so the product reads
+                as "fits every kind of professional".
+              -->
+              <div class="app-row">
+                <div class="app-avatar">P</div>
+                <div class="app-info">
+                  <div class="app-role" data-i18n="hero.appPreview.role1">Senior Product Manager</div>
+                  <div class="app-co">Pulse Fintech · Amsterdam</div>
                 </div>
-                <div class="success-title">You're on the list!</div>
-                <p class="success-sub">We'll notify you the moment Gidsly opens its doors.</p>
+                <span class="app-stage stage-discovery" data-i18n="stages.researching">Researching</span>
               </div>
-              <div class="join-count" id="joinCount">
-                <div class="avatars">
-                  <div class="avatar av1">A</div>
-                  <div class="avatar av2">M</div>
-                  <div class="avatar av3">J</div>
-                  <div class="avatar av4">R</div>
+
+              <div class="app-row">
+                <div class="app-avatar">O</div>
+                <div class="app-info">
+                  <div class="app-role" data-i18n="hero.appPreview.role2">Head of Design</div>
+                  <div class="app-co">Orbit Studios · Utrecht</div>
                 </div>
-                <span id="countText">2,841 professionals already waiting</span>
+                <span class="app-stage stage-interview" data-i18n="stages.interviewing">Interviewing</span>
+              </div>
+
+              <div class="app-row">
+                <div class="app-avatar">L</div>
+                <div class="app-info">
+                  <div class="app-role" data-i18n="hero.appPreview.role3">Staff Engineer</div>
+                  <div class="app-co">Lumen Health · Remote</div>
+                </div>
+                <span class="app-stage stage-offer" data-i18n="stages.offerReceived">Offer Received</span>
+              </div>
+            </div>
+            <div class="app-preview-float" data-i18n="hero.appPreview.float">Interview at Orbit in 2 days — want to rehearse?</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- FEATURES — four-up, benefit-first, auto-rotating ─── -->
+    <section class="features" id="features">
+      <p class="section-eyebrow" data-i18n="features.eyebrow">What Gidsly does</p>
+      <h2 class="section-title" data-i18n="features.title">Built for the whole journey.</h2>
+
+      <!-- Clickable tabs: one per feature. Each activates the matching
+           panel below. -->
+      <div class="feat-tabs" role="tablist">
+
+        <button class="feat-tab active" data-tab="pipeline" role="tab" aria-selected="true">
+          <div class="feat-tab-row">
+            <div class="feat-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="5" height="18" rx="1"/><rect x="10" y="7" width="5" height="14" rx="1"/><rect x="17" y="11" width="4" height="10" rx="1"/></svg>
+            </div>
+            <h3 class="feat-title" data-i18n="features.pipeline.tabTitle">A pipeline that doesn't forget.</h3>
+          </div>
+          <p class="feat-desc" data-i18n="features.pipeline.tabDesc">Every application, conversation, and next step in one view.</p>
+          <div class="feat-tab-progress"></div>
+        </button>
+
+        <button class="feat-tab" data-tab="docs" role="tab" aria-selected="false">
+          <div class="feat-tab-row">
+            <div class="feat-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9.5 12.5l1.5 1.5 3-3"/></svg>
+            </div>
+            <h3 class="feat-title" data-i18n="features.docs.tabTitle">Documents that land.</h3>
+          </div>
+          <p class="feat-desc" data-i18n="features.docs.tabDesc">CVs, cover letters, pitches — tailored for every role you pursue.</p>
+          <div class="feat-tab-progress"></div>
+        </button>
+
+        <button class="feat-tab" data-tab="companion" role="tab" aria-selected="false">
+          <div class="feat-tab-row">
+            <div class="feat-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </div>
+            <h3 class="feat-title" data-i18n="features.companion.tabTitle">A companion for the harder days.</h3>
+          </div>
+          <p class="feat-desc" data-i18n="features.companion.tabDesc">Interview rehearsal and a voice you can lean on.</p>
+          <div class="feat-tab-progress"></div>
+        </button>
+
+        <button class="feat-tab" data-tab="network" role="tab" aria-selected="false">
+          <div class="feat-tab-row">
+            <div class="feat-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+            </div>
+            <h3 class="feat-title" data-i18n="features.network.tabTitle">A network that remembers.</h3>
+          </div>
+          <p class="feat-desc" data-i18n="features.network.tabDesc">Contacts, stakeholders, and warm intros — linked to the roles they touch.</p>
+          <div class="feat-tab-progress"></div>
+        </button>
+
+      </div>
+
+      <!-- Detail panel — one is visible at a time, controlled by the
+           tabs above. Each has copy on the left, a feature-specific
+           pure-HTML/CSS mockup on the right. -->
+      <div class="feat-detail">
+
+        <!-- Panel 1: Pipeline — status-history timeline ─────── -->
+        <div class="feat-panel active" data-panel="pipeline" role="tabpanel">
+          <div>
+            <div class="feat-panel-eyebrow" data-i18n="features.pipeline.eyebrow">Journey CRM</div>
+            <h4 data-i18n="features.pipeline.headline">Every opportunity in view. No missed follow-up.</h4>
+            <p data-i18n="features.pipeline.body">Gidsly tracks every application, catches threads going cold, and replays the whole journey when you need perspective — not just numbers on a dashboard. Every stage change is an event you can look back on.</p>
+          </div>
+          <div class="panel-timeline" aria-hidden="true">
+            <div class="panel-timeline-head">
+              <div class="app-avatar">O</div>
+              <div>
+                <div class="title"><span data-i18n="hero.appPreview.role2">Head of Design</span> · Orbit Studios</div>
+                <div class="sub" data-i18n="features.pipeline.statusHistory">Status history</div>
+              </div>
+            </div>
+            <div class="tl-item"><span class="tl-dot"></span><span class="tl-label" data-i18n="stages.researching">Researching</span><span class="tl-date">Mar 3</span></div>
+            <div class="tl-item"><span class="tl-dot"></span><span class="tl-label" data-i18n="stages.readyToApply">Ready to Apply</span><span class="tl-date">Mar 10</span></div>
+            <div class="tl-item"><span class="tl-dot"></span><span class="tl-label" data-i18n="stages.applied">Applied</span><span class="tl-date">Mar 14</span></div>
+            <div class="tl-item"><span class="tl-dot"></span><span class="tl-label" data-i18n="stages.screening">Screening</span><span class="tl-date">Mar 19</span></div>
+            <div class="tl-item"><span class="tl-dot"></span><span class="tl-label"><span data-i18n="stages.interviewing">Interviewing</span> <span class="tl-current" data-i18n="stages.now">Now</span></span><span class="tl-date">Apr 2</span></div>
+            <div class="tl-item upcoming"><span class="tl-dot upcoming"></span><span class="tl-label" data-i18n="features.pipeline.interview2">Interview #2 scheduled</span><span class="tl-date">Apr 18</span></div>
+          </div>
+        </div>
+
+        <!-- Panel 2: Documents — Tailor mockup ──────────────── -->
+        <div class="feat-panel" data-panel="docs" role="tabpanel">
+          <div>
+            <div class="feat-panel-eyebrow">Gidsly Tailor</div>
+            <h4 data-i18n="features.docs.headline">Every document, tailored to the role.</h4>
+            <p data-i18n="features.docs.body">CVs, cover letters, elevator pitches — Gidsly reads the job description, draws on your actual experience, and rewrites what you need for each role you pursue. No templates, no fluff, always in your voice.</p>
+          </div>
+          <div class="panel-tailor" aria-hidden="true">
+            <div class="tailor-card">
+              <div class="tailor-card-label" data-i18n="features.docs.jobLabel">Job posting · Pulse Fintech</div>
+              <div class="tailor-card-body" data-i18n-html="features.docs.jobText">"We're hiring a Senior PM with 5+ yrs in <span class="hilite">payments</span> at scale. You'll own a <span class="hilite">B2B</span> product line and partner with design + eng."</div>
+            </div>
+            <div class="tailor-arrow">↓</div>
+            <div class="tailor-card">
+              <div class="tailor-card-label" data-i18n="features.docs.cvLabel">Tailored CV bullet</div>
+              <div class="tailor-card-body" data-i18n-html="features.docs.cvText">"Led <span class="hilite">payments</span> platform team scaling to €12M ARR — shipped 3 <span class="hilite">B2B</span> products from 0→1 with design and engineering."</div>
+              <div class="tailor-chips">
+                <span class="tailor-chip">Payments</span>
+                <span class="tailor-chip">B2B</span>
+                <span class="tailor-chip">Scale</span>
+                <span class="tailor-chip">0→1</span>
+              </div>
+            </div>
+            <!--
+              Subtle row signalling breadth: the mockup shows CV as
+              the concrete example, but Gidsly tailors other documents
+              from the same Essence + job description pairing.
+            -->
+            <div class="tailor-also">
+              <span class="tailor-also-label" data-i18n="features.docs.alsoTailored">Also tailored</span>
+              <span class="tailor-also-chip">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="M4 9h16M9 4v16"/></svg>
+                <span data-i18n="features.docs.coverLetter">Cover letter</span>
+              </span>
+              <span class="tailor-also-chip">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
+                <span data-i18n="features.docs.elevatorPitch">Elevator pitch</span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 4: Network — contact linked to applications ─── -->
+        <div class="feat-panel" data-panel="network" role="tabpanel">
+          <div>
+            <div class="feat-panel-eyebrow" data-i18n="features.network.eyebrow">Contacts &amp; Stakeholders</div>
+            <h4 data-i18n="features.network.headline">The humans behind every role.</h4>
+            <p data-i18n="features.network.body">Gidsly links the people in your network to the applications where they actually matter. Recruiters, hiring managers, alumni, warm intros — all tracked, all surfaced when the right moment comes.</p>
+          </div>
+          <div class="panel-network" aria-hidden="true">
+            <div class="network-card">
+              <div class="network-head">
+                <div class="network-avatar">S</div>
+                <div>
+                  <div class="network-name">Sarah Chen</div>
+                  <div class="network-role" data-i18n="features.network.cardRole">Head of Talent · Acme</div>
+                </div>
+                <span class="network-chip" data-i18n="features.network.linksCount">3 links</span>
+              </div>
+              <div class="network-links">
+                <div class="network-link">
+                  <span class="net-dot"></span>
+                  <span class="link-co"><span data-i18n="features.network.roleShort1">Senior PM</span> <em>· Pulse Fintech</em></span>
+                  <span class="link-stage stage-discovery" data-i18n="stages.researching">Researching</span>
+                </div>
+                <div class="network-link">
+                  <span class="net-dot"></span>
+                  <span class="link-co"><span data-i18n="hero.appPreview.role2">Head of Design</span> <em>· Orbit</em></span>
+                  <span class="link-stage stage-interview" data-i18n="stages.interviewing">Interviewing</span>
+                </div>
+                <div class="network-link">
+                  <span class="net-dot"></span>
+                  <span class="link-co"><span data-i18n="hero.appPreview.role3">Staff Engineer</span> <em>· Lumen</em></span>
+                  <span class="link-stage stage-offer" data-i18n="stages.offerShort">Offer</span>
+                </div>
+              </div>
+            </div>
+            <div class="network-insight" data-i18n="features.network.insight">
+              Sarah made the warm intro to Pulse — worth a thank-you before your next chat.
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 3: Companion — chat mockup ────────────────── -->
+        <div class="feat-panel" data-panel="companion" role="tabpanel">
+          <div>
+            <div class="feat-panel-eyebrow" data-i18n="features.companion.eyebrow">Wellness & Coaching</div>
+            <h4 data-i18n="features.companion.headline">Not just a tool. A presence.</h4>
+            <p data-i18n="features.companion.body">Interview rehearsal when you're nervous. Reflection when you're stuck. A voice to lean on when the rejection comes — because it will, and that's normal. Gidsly is here for the parts no dashboard covers.</p>
+          </div>
+          <div class="panel-chat" aria-hidden="true">
+            <div class="chat-msg">
+              <div class="chat-avatar user">W</div>
+              <div class="chat-body">
+                <div class="chat-name"><span data-i18n="features.companion.you">You</span> · <span data-i18n="features.companion.userTime">Wednesday 14:32</span></div>
+                <div class="chat-text" data-i18n="features.companion.userText">Got a rejection from Orbit. Feels bad.</div>
+              </div>
+            </div>
+            <div class="chat-msg">
+              <div class="chat-avatar gidsly">G</div>
+              <div class="chat-body">
+                <div class="chat-name">Gidsly · <span data-i18n="features.companion.justNow">just now</span></div>
+                <div class="chat-text" data-i18n="features.companion.gidslyText">That's hard — especially after reaching the final round. Want to talk through what happened, or would a two-minute reset help first? Either is a good choice.</div>
+                <div class="chat-voice">
+                  <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
+                  <span data-i18n="features.companion.voiceAvailable">Voice reply available</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- FLOATING IMAGE COLLAGE -->
-        <div class="hero-right">
-          <!-- Main: focused professional at laptop, warm tones -->
-          <div class="img-card img-card-main">
-            <img
-              src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=700&q=80&fit=crop&crop=faces,center"
-              alt="Professional focused at laptop"
-            />
-            <div class="img-tag">Deep focus mode</div>
-          </div>
-          <!-- Small left: collaboration / networking -->
-          <div class="img-card img-card-sm1">
-            <img
-              src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500&q=80&fit=crop&crop=faces,center"
-              alt="Professionals collaborating"
-            />
-            <div class="img-tag">Network smarter</div>
-          </div>
-          <!-- Small right: calm portrait -->
-          <div class="img-card img-card-sm2">
-            <img
-              src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&q=80&fit=crop&crop=faces,top"
-              alt="Confident professional"
-            />
-          </div>
-        </div>
-
       </div>
     </section>
 
-    <!-- FEATURE PROOF CARDS -->
-    <section class="proof-strip">
-
-      <div class="proof-card">
-        <div class="proof-img-wrap">
-          <img class="proof-img"
-            src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=80&fit=crop&crop=faces,center"
-            alt="Career journey"
-          />
-        </div>
-        <div class="proof-body">
-          <span class="proof-feature-tag">Journey CRM</span>
-          <div class="proof-title">Never lose track of an opportunity</div>
-          <p class="proof-desc">A visual pipeline that maps every stage of your search — applications, interviews, and follow-ups — with effortless clarity.</p>
-        </div>
-      </div>
-
-      <div class="proof-card">
-        <div class="proof-img-wrap">
-          <img class="proof-img"
-            src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=600&q=80&fit=crop&crop=center"
-            alt="Writing documents"
-          />
-        </div>
-        <div class="proof-body">
-          <span class="proof-feature-tag">AI Document Tailor</span>
-          <div class="proof-title">Resumes that speak the right language</div>
-          <p class="proof-desc">Our AI reads job descriptions and rewrites your materials to land in the top 10% — every single application.</p>
-        </div>
-      </div>
-
-      <div class="proof-card">
-        <div class="proof-img-wrap">
-          <img class="proof-img"
-            src="https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=600&q=80&fit=crop&crop=center"
-            alt="Wellness and calm"
-          />
-        </div>
-        <div class="proof-body">
-          <span class="proof-feature-tag">Wellness Coach</span>
-          <div class="proof-title">The emotional side of your search, covered</div>
-          <p class="proof-desc">Guided mindfulness, stress management, and AI-powered mock interviews — because your mental state is part of the strategy.</p>
-        </div>
-      </div>
-
-    </section>
-
-    <!-- FEATURES STRIP -->
-    <section class="features-section">
-      <p class="section-label">Everything you need to thrive</p>
-      <div class="features-grid">
-        <div class="feature-card">
-          <div class="feature-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="5" height="18" rx="1"/><rect x="10" y="7" width="5" height="14" rx="1"/><rect x="17" y="11" width="4" height="10" rx="1"/></svg></div>
-          <div class="feature-name">Journey CRM</div>
-          <div class="feature-desc">Visual pipeline for every application stage</div>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9.5 12.5l1.5 1.5 3-3"/></svg></div>
-          <div class="feature-name">AI Tailor</div>
-          <div class="feature-desc">Optimise docs for any job description</div>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
-          <div class="feature-name">Wellness Coach</div>
-          <div class="feature-desc">Mental health support & mock interviews</div>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/><path d="M17 14l1.5 1.5L21 13"/></svg></div>
-          <div class="feature-name">Essence Profile</div>
-          <div class="feature-desc">Your dynamic professional identity</div>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div>
-          <div class="feature-name">Network Intelligence</div>
-          <div class="feature-desc">Smart follow-ups & relationship nurturing</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- QUOTE / MOOD BAND -->
-    <div class="quote-band">
-      <div>
-        <div class="quote-text">"The job search isn't just a process. It's one of the most human experiences you'll ever navigate."</div>
-        <div class="quote-author">— Built with that truth in mind</div>
-      </div>
-      <div class="quote-img-wrap">
-        <img
-          src="https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?w=700&q=80&fit=crop&crop=faces,center"
-          alt="Team working together"
-        />
+    <!-- WHY — warm band, no fake attribution ───────────────── -->
+    <div class="why">
+      <div class="why-inner">
+        <div class="why-eyebrow" data-i18n="why.eyebrow">Why Gidsly exists</div>
+        <p class="why-text" data-i18n-html="why.text">
+          A job search isn't just a process — it's one of the most human things you'll ever do.
+          <strong>We built Gidsly with that in mind.</strong>
+        </p>
       </div>
     </div>
+
+    <!-- CLOSING CTA + WAITLIST ─────────────────────────────
+         The single waitlist form on the page. The hero CTA button
+         anchor-scrolls here via #waitlist. -->
+    <section class="close-cta" id="waitlist">
+      <h2 class="close-title" data-i18n="closing.title">Be early. Shape how it launches.</h2>
+      <p class="close-sub" data-i18n="closing.sub">
+        We're onboarding a small first group of professionals across the Netherlands in Spring 2026. Add your email — we'll reach out personally.
+      </p>
+
+      <div class="waitlist">
+        <div id="formDefault">
+          <label class="waitlist-label" for="emailInput" data-i18n="closing.formLabel">Request early access</label>
+          <div class="input-row">
+            <input type="email" class="input-field" id="emailInput" placeholder="your@email.com" autocomplete="email" data-i18n-placeholder="closing.formPlaceholder"/>
+            <button class="btn-join" id="joinBtn" onclick="handleJoin()" data-i18n="closing.formButton">Join the waitlist</button>
+          </div>
+          <p class="form-note" data-i18n="closing.formNote">No number games. No spam. Just us, reaching out when we're ready.</p>
+        </div>
+
+        <!-- Invisible iframe target so the Loops form submits without
+             navigating away from this page. -->
+        <iframe name="loops-hidden" style="display:none;"></iframe>
+        <form id="loopsForm"
+          action="https://app.loops.so/api/newsletter-form/cmmkyjbmr0c0i0i2lkd5ia0on"
+          method="POST"
+          target="loops-hidden"
+          style="display:none;">
+          <input type="email" name="email" id="loopsEmail"/>
+        </form>
+
+        <div class="success-state" id="formSuccess">
+          <div class="success-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="success-title" data-i18n="closing.successTitle">You're on the list.</div>
+          <p class="success-sub" data-i18n="closing.successSub">We'll be in touch personally before launch.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT ────────────────────────────────────────────
+         Primary path is the Netlify Form (captured at the platform
+         edge once deployed — free, spam-filtered, 100/mo on the
+         free tier). The email link below the form is the fallback
+         for people who prefer their own mail client.
+
+         Local dev note: the form submit will visibly "succeed" via
+         the JS handler even without a real Netlify endpoint. On
+         production Netlify, the POST to "/" is intercepted and the
+         submission lands in Site → Forms. -->
+    <section class="contact-section" id="contact">
+      <div class="contact-inner">
+
+        <div class="contact-copy">
+          <h3 data-i18n="contact.title">Get in touch.</h3>
+          <p data-i18n="contact.body">Questions, feedback, or want to partner with us? Drop us a line and we'll come back to you personally.</p>
+        </div>
+
+        <div>
+          <form class="contact-form" id="contactForm" name="contact" method="POST"
+                data-netlify="true" netlify-honeypot="bot-field">
+            <!-- Required by Netlify for AJAX-style submission -->
+            <input type="hidden" name="form-name" value="contact" />
+            <!-- Honeypot — real users leave this empty; bots fill it in -->
+            <p style="display:none">
+              <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+            </p>
+
+            <div class="contact-field">
+              <label for="contactName"><span data-i18n="contact.nameLabel">Name</span> <span class="optional" data-i18n="contact.nameOptional">(optional)</span></label>
+              <input type="text" id="contactName" name="name" placeholder="Jane Smith" autocomplete="name" data-i18n-placeholder="contact.namePlaceholder"/>
+            </div>
+
+            <div class="contact-field">
+              <label for="contactEmail" data-i18n="contact.emailLabel">Email</label>
+              <input type="email" id="contactEmail" name="email" placeholder="you@example.com" autocomplete="email" required data-i18n-placeholder="contact.emailPlaceholder"/>
+            </div>
+
+            <div class="contact-field">
+              <label for="contactMessage" data-i18n="contact.messageLabel">Message</label>
+              <textarea id="contactMessage" name="message" placeholder="Tell us what's on your mind…" required data-i18n-placeholder="contact.messagePlaceholder"></textarea>
+            </div>
+
+            <button type="submit" class="contact-submit" id="contactSubmit" data-i18n="contact.submit">Send message</button>
+          </form>
+
+          <div class="contact-success" id="contactSuccess">
+            <div class="success-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div class="success-title" data-i18n="contact.successTitle">Thanks — we've got it.</div>
+            <p class="success-sub" data-i18n="contact.successSub">We'll reply to you personally, usually within a day or two.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- FOOTER ────────────────────────────────────────────── -->
+    <footer>
+      <div class="footer-row">
+        <div class="footer-brand">
+          <svg class="brand-mark" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect width="100" height="100" fill="#1c4538"/>
+            <text x="50" y="72" text-anchor="middle" fill="#f5e3cc"
+                  style="font-family:'Libre Baskerville',serif;font-weight:700;font-size:75px;">G</text>
+          </svg>
+          <span class="brand-word">Gidsly</span>
+        </div>
+        <div class="footer-right">
+
+          <!-- Social icons — brand-correct SVG paths, coloured via currentColor
+               so they pick up the muted→green hover from .footer-social a. -->
+          <div class="footer-social">
+            <a href="https://www.linkedin.com/company/gidsly"
+               target="_blank" rel="noopener noreferrer"
+               aria-label="Gidsly on LinkedIn">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+              </svg>
+            </a>
+            <a href="https://www.instagram.com/gidsly/"
+               target="_blank" rel="noopener noreferrer"
+               aria-label="Gidsly on Instagram">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 2.163c3.204 0 3.584.012 4.849.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.849.07-3.205 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.791 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+              </svg>
+            </a>
+          </div>
+
+          <div class="footer-links">
+            <a href="#" data-i18n="footer.privacy">Privacy</a>
+            <a href="#" data-i18n="footer.terms">Terms</a>
+            <span>© 2026 Gidsly</span>
+          </div>
+
+        </div>
+      </div>
+      <div class="footer-bottom-row">
+        <p class="footer-note" data-i18n="footer.note">
+          Being built in the Netherlands · EU-first by design.
+        </p>
+        <!--
+          Language switcher. Only codes listed in AVAILABLE_LANGS (in the
+          JS below) actually render buttons — this block intentionally
+          includes all six so adding a new reviewed language means flipping
+          one entry in AVAILABLE_LANGS, no HTML change needed.
+        -->
+        <div class="lang-switch" id="langSwitch" role="group" aria-label="Language">
+          <button type="button" data-set-lang="en">English</button>
+          <button type="button" data-set-lang="nl">Nederlands</button>
+          <button type="button" data-set-lang="de">Deutsch</button>
+          <button type="button" data-set-lang="fr">Français</button>
+          <button type="button" data-set-lang="es">Español</button>
+          <button type="button" data-set-lang="it">Italiano</button>
+        </div>
+      </div>
+    </footer>
 
   </div><!-- /wrapper -->
 
-  <!-- BOTTOM STRIP -->
-  <div class="wrapper" style="padding-bottom:0;">
-    <div class="bottom-strip">
-      <div>
-        <div class="strip-tagline">Be first.<br>Shape what's next.</div>
-        <div class="strip-sub">Early members get lifetime founding benefits.</div>
-      </div>
-      <div class="strip-links">
-        <a href="#" class="strip-link">Privacy Policy</a>
-        <a href="#" class="strip-link">Contact</a>
-        <a href="#" class="strip-link">© 2025 Gidsly</a>
-      </div>
-    </div>
-  </div>
-
   <script>
-    let count = 2841;
+    /* ═══════════════════════════════════════════════════════════════
+       INTERNATIONALIZATION
+       ───────────────────────────────────────────────────────────────
+       Supports: English (en) · Dutch (nl) · German (de) · French (fr)
+                 · Spanish (es) · Italian (it)
+
+       Status:
+         en — polished (source of truth)
+         nl — polished
+         de, fr, es, it — stubbed with English copy, need review by a
+                           native speaker before those languages are
+                           exposed in the switcher. Currently only
+                           en + nl are surfaced to users (see
+                           AVAILABLE_LANGS below). Flip any stub into
+                           AVAILABLE_LANGS once its translations are
+                           reviewed.
+
+       Brand terms that STAY in English everywhere, per product decision:
+         "Gidsly", "Private Beta", "Gidsly Tailor", "© 2026 Gidsly"
+
+       How translation happens at runtime:
+         Every element tagged with data-i18n="some.key" has its
+         textContent replaced from the translations object for the
+         active language. data-i18n-html="some.key" uses innerHTML
+         instead (for strings with inline <em>/<strong>/<span> tags).
+         data-i18n-placeholder="some.key" sets the placeholder attr.
+       ═══════════════════════════════════════════════════════════════ */
+
+    const translations = {
+      /* ── English ───────────────────────────────────────────── */
+      en: {
+        nav: { badgeDate: " · Spring 2026" },
+        hero: {
+          headline: "The career companion<br>you <em>wish</em><br>you'd had.",
+          sub:      "Gidsly keeps every application, interview, and career decision in one place — with honest coaching for the moments that aren't on a spreadsheet.",
+          ctaPrimary:   "Request early access",
+          ctaSecondary: "See how it works →",
+          appPreview: {
+            title: "Applications",
+            count: "3 active",
+            role1: "Senior Product Manager",
+            role2: "Head of Design",
+            role3: "Staff Engineer",
+            float: "Interview at Orbit in 2 days — want to rehearse?"
+          }
+        },
+        stages: {
+          researching:   "Researching",
+          readyToApply:  "Ready to Apply",
+          applied:       "Applied",
+          screening:     "Screening",
+          interviewing:  "Interviewing",
+          offerReceived: "Offer Received",
+          offerShort:    "Offer",
+          now:           "Now"
+        },
+        features: {
+          eyebrow: "What Gidsly does",
+          title:   "Built for the whole journey.",
+          pipeline: {
+            tabTitle:      "A pipeline that doesn't forget.",
+            tabDesc:       "Every application, conversation, and next step in one view.",
+            eyebrow:       "Journey CRM",
+            headline:      "Every opportunity in view. No missed follow-up.",
+            body:          "Gidsly tracks every application, catches threads going cold, and replays the whole journey when you need perspective — not just numbers on a dashboard. Every stage change is an event you can look back on.",
+            statusHistory: "Status history",
+            interview2:    "Interview #2 scheduled"
+          },
+          docs: {
+            tabTitle:     "Documents that land.",
+            tabDesc:      "CVs, cover letters, pitches — tailored for every role you pursue.",
+            headline:     "Every document, tailored to the role.",
+            body:         "CVs, cover letters, elevator pitches — Gidsly reads the job description, draws on your actual experience, and rewrites what you need for each role you pursue. No templates, no fluff, always in your voice.",
+            jobLabel:     "Job posting · Pulse Fintech",
+            jobText:      "\"We're hiring a Senior PM with 5+ yrs in <span class=\"hilite\">payments</span> at scale. You'll own a <span class=\"hilite\">B2B</span> product line and partner with design + eng.\"",
+            cvLabel:      "Tailored CV bullet",
+            cvText:       "\"Led <span class=\"hilite\">payments</span> platform team scaling to €12M ARR — shipped 3 <span class=\"hilite\">B2B</span> products from 0→1 with design and engineering.\"",
+            alsoTailored: "Also tailored",
+            coverLetter:  "Cover letter",
+            elevatorPitch:"Elevator pitch"
+          },
+          companion: {
+            tabTitle:       "A companion for the harder days.",
+            tabDesc:        "Interview rehearsal and a voice you can lean on.",
+            eyebrow:        "Wellness & Coaching",
+            headline:       "Not just a tool. A presence.",
+            body:           "Interview rehearsal when you're nervous. Reflection when you're stuck. A voice to lean on when the rejection comes — because it will, and that's normal. Gidsly is here for the parts no dashboard covers.",
+            you:            "You",
+            userTime:       "Wednesday 14:32",
+            userText:       "Got a rejection from Orbit. Feels bad.",
+            justNow:        "just now",
+            gidslyText:     "That's hard — especially after reaching the final round. Want to talk through what happened, or would a two-minute reset help first? Either is a good choice.",
+            voiceAvailable: "Voice reply available"
+          },
+          network: {
+            tabTitle:    "A network that remembers.",
+            tabDesc:     "Contacts, stakeholders, and warm intros — linked to the roles they touch.",
+            eyebrow:     "Contacts & Stakeholders",
+            headline:    "The humans behind every role.",
+            body:        "Gidsly links the people in your network to the applications where they actually matter. Recruiters, hiring managers, alumni, warm intros — all tracked, all surfaced when the right moment comes.",
+            cardRole:    "Head of Talent · Acme",
+            linksCount:  "3 links",
+            roleShort1:  "Senior PM",
+            insight:     "Sarah made the warm intro to Pulse — worth a thank-you before your next chat."
+          }
+        },
+        why: {
+          eyebrow: "Why Gidsly exists",
+          text:    "A job search isn't just a process — it's one of the most human things you'll ever do. <strong>We built Gidsly with that in mind.</strong>"
+        },
+        closing: {
+          title:          "Be early. Shape how it launches.",
+          sub:            "We're onboarding a small first group of professionals across the Netherlands in Spring 2026. Add your email — we'll reach out personally.",
+          formLabel:      "Request early access",
+          formPlaceholder:"your@email.com",
+          formButton:     "Join the waitlist",
+          formNote:       "No number games. No spam. Just us, reaching out when we're ready.",
+          successTitle:   "You're on the list.",
+          successSub:     "We'll be in touch personally before launch."
+        },
+        contact: {
+          title:            "Get in touch.",
+          body:             "Questions, feedback, or want to partner with us? Drop us a line and we'll come back to you personally.",
+          nameLabel:        "Name",
+          nameOptional:     "(optional)",
+          namePlaceholder:  "Jane Smith",
+          emailLabel:       "Email",
+          emailPlaceholder: "you@example.com",
+          messageLabel:     "Message",
+          messagePlaceholder:"Tell us what's on your mind…",
+          submit:           "Send message",
+          successTitle:     "Thanks — we've got it.",
+          successSub:       "We'll reply to you personally, usually within a day or two."
+        },
+        footer: {
+          privacy: "Privacy",
+          terms:   "Terms",
+          note:    "Being built in the Netherlands · EU-first by design."
+        }
+      },
+
+      /* ── Dutch (polished) ──────────────────────────────────── */
+      nl: {
+        nav: { badgeDate: " · Voorjaar 2026" },
+        hero: {
+          // Brand payoff — stays in English across all languages (same treatment as "Private Beta", "Gidsly Tailor")
+          headline: "The career companion<br>you <em>wish</em><br>you'd had.",
+          sub:      "Gidsly bewaart elke sollicitatie, elk gesprek en elke carrièrekeuze op één plek — met eerlijke coaching voor de momenten die niet in een spreadsheet passen.",
+          ctaPrimary:   "Vraag vroege toegang aan",
+          ctaSecondary: "Bekijk hoe het werkt →",
+          appPreview: {
+            title: "Sollicitaties",
+            count: "3 actief",
+            role1: "Senior Product Manager",
+            role2: "Head of Design",
+            role3: "Staff Engineer",
+            float: "Gesprek bij Orbit over 2 dagen — oefenen?"
+          }
+        },
+        stages: {
+          researching:   "Oriënteren",
+          readyToApply:  "Klaar om te solliciteren",
+          applied:       "Gesolliciteerd",
+          screening:     "Screening",
+          interviewing:  "In gesprek",
+          offerReceived: "Aanbod ontvangen",
+          offerShort:    "Aanbod",
+          now:           "Nu"
+        },
+        features: {
+          eyebrow: "Wat Gidsly doet",
+          title:   "Gebouwd voor de hele reis.",
+          pipeline: {
+            tabTitle:      "Een pijplijn die niets vergeet.",
+            tabDesc:       "Elke sollicitatie, elk gesprek en elke vervolgstap in één overzicht.",
+            eyebrow:       "Journey CRM",
+            headline:      "Elke kans in beeld. Geen vergeten follow-up.",
+            body:          "Gidsly volgt elke sollicitatie, merkt op wanneer een contact stilvalt en laat je de hele reis opnieuw beleven als je het grotere plaatje nodig hebt — meer dan cijfers op een dashboard. Elke statuswijziging is een moment om op terug te kijken.",
+            statusHistory: "Statusgeschiedenis",
+            interview2:    "Gesprek #2 gepland"
+          },
+          docs: {
+            tabTitle:     "Documenten die aankomen.",
+            tabDesc:      "CV's, motivatiebrieven, pitches — voor elke functie op maat.",
+            headline:     "Elk document, afgestemd op de rol.",
+            body:         "CV's, motivatiebrieven, elevator pitches — Gidsly leest de vacature, gebruikt je werkelijke ervaring en herschrijft wat je nodig hebt voor elke rol die je nastreeft. Geen sjablonen, geen loze woorden, altijd in jouw stem.",
+            jobLabel:     "Vacature · Pulse Fintech",
+            jobText:      "\"We zoeken een Senior PM met 5+ jaar ervaring in <span class=\"hilite\">betalingen</span> op schaal. Je krijgt een <span class=\"hilite\">B2B</span> productlijn in handen en werkt samen met design en engineering.\"",
+            cvLabel:      "Afgestemde CV-regel",
+            cvText:       "\"Leidde het <span class=\"hilite\">betalingsplatform</span>-team naar €12M ARR — lanceerde 3 <span class=\"hilite\">B2B</span>-producten van 0→1 samen met design en engineering.\"",
+            alsoTailored: "Ook op maat",
+            coverLetter:  "Motivatiebrief",
+            elevatorPitch:"Elevator pitch"
+          },
+          companion: {
+            tabTitle:       "Een compagnon voor de zwaardere dagen.",
+            tabDesc:        "Sollicitatievoorbereiding en een stem om op te leunen.",
+            eyebrow:        "Welzijn & coaching",
+            headline:       "Geen tool alleen. Een aanwezigheid.",
+            body:           "Oefenen voor een gesprek als je zenuwachtig bent. Reflectie als je vastzit. Een stem om op te leunen als de afwijzing komt — want die komt, en dat is normaal. Gidsly is er voor de stukken die geen dashboard dekt.",
+            you:            "Jij",
+            userTime:       "Woensdag 14:32",
+            userText:       "Afgewezen door Orbit. Voelt rot.",
+            justNow:        "zojuist",
+            gidslyText:     "Dat is zwaar — zeker na de laatste ronde. Wil je erover praten, of eerst even twee minuten op adem komen? Allebei goed.",
+            voiceAvailable: "Gesproken antwoord beschikbaar"
+          },
+          network: {
+            tabTitle:    "Een netwerk dat onthoudt.",
+            tabDesc:     "Contacten, stakeholders en warme intro's — gekoppeld aan de rollen die ze raken.",
+            eyebrow:     "Contacten & stakeholders",
+            headline:    "De mensen achter elke rol.",
+            body:        "Gidsly verbindt de mensen in je netwerk met de sollicitaties waar ze echt toe doen. Recruiters, hiring managers, oud-collega's, warme intro's — allemaal gevolgd, allemaal naar voren gebracht wanneer het moment telt.",
+            cardRole:    "Head of Talent · Acme",
+            linksCount:  "3 links",
+            roleShort1:  "Senior PM",
+            insight:     "Sarah legde het warme contact met Pulse — een bedankje waard vóór je volgende gesprek."
+          }
+        },
+        why: {
+          eyebrow: "Waarom Gidsly bestaat",
+          text:    "Solliciteren is meer dan een proces — het is een van de meest menselijke dingen die je ooit doet. <strong>Met die gedachte is Gidsly gebouwd.</strong>"
+        },
+        closing: {
+          title:          "Wees er vroeg bij. Bepaal mee hoe we lanceren.",
+          sub:            "We laten in het voorjaar van 2026 een kleine eerste groep professionals uit Nederland in. Laat je e-mail achter — we nemen persoonlijk contact op.",
+          formLabel:      "Vraag vroege toegang aan",
+          formPlaceholder:"jouw@e-mail.nl",
+          formButton:     "Op de wachtlijst",
+          formNote:       "Geen cijferspelletjes. Geen spam. Gewoon wij, die ons melden wanneer het tijd is.",
+          successTitle:   "Je staat op de lijst.",
+          successSub:     "We nemen vóór de lancering persoonlijk contact op."
+        },
+        contact: {
+          title:            "Neem contact op.",
+          body:             "Vragen, feedback of zin om samen te werken? Stuur een bericht en we komen persoonlijk bij je terug.",
+          nameLabel:        "Naam",
+          nameOptional:     "(optioneel)",
+          namePlaceholder:  "Jane Smit",
+          emailLabel:       "E-mail",
+          emailPlaceholder: "jij@voorbeeld.nl",
+          messageLabel:     "Bericht",
+          messagePlaceholder:"Vertel ons wat er speelt…",
+          submit:           "Verstuur bericht",
+          successTitle:     "Dank je — binnen.",
+          successSub:       "We reageren persoonlijk, meestal binnen een dag of twee."
+        },
+        footer: {
+          privacy: "Privacy",
+          terms:   "Voorwaarden",
+          note:    "Gebouwd in Nederland · EU-first by design."
+        }
+      }
+    };
+
+    /* Stub languages — currently a shallow copy of English. Flip to the
+       polished dictionary structure when a native speaker has reviewed. */
+    translations.de = JSON.parse(JSON.stringify(translations.en)); /* TODO: German translation — needs native review */
+    translations.fr = JSON.parse(JSON.stringify(translations.en)); /* TODO: French translation — needs native review */
+    translations.es = JSON.parse(JSON.stringify(translations.en)); /* TODO: Spanish translation — needs native review */
+    translations.it = JSON.parse(JSON.stringify(translations.en)); /* TODO: Italian translation — needs native review */
+
+    const LANGUAGE_LABELS = {
+      en: "English",
+      nl: "Nederlands",
+      de: "Deutsch",
+      fr: "Français",
+      es: "Español",
+      it: "Italiano"
+    };
+
+    /* Only EN + NL are exposed to users until the other four have been
+       reviewed by a native speaker. To ship another language: add its
+       code to this array and fill in its translations dictionary above. */
+    const AVAILABLE_LANGS = ["en", "nl"];
+
+    function lookup(obj, path) {
+      return path.split(".").reduce((x, k) => (x && x[k] !== undefined ? x[k] : undefined), obj);
+    }
+
+    function setLanguage(code) {
+      if (!translations[code]) code = "en";
+      document.documentElement.lang = code;
+
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        const value = lookup(translations[code], el.dataset.i18n);
+        if (typeof value === "string") el.textContent = value;
+      });
+      document.querySelectorAll("[data-i18n-html]").forEach(el => {
+        const value = lookup(translations[code], el.dataset.i18nHtml);
+        if (typeof value === "string") el.innerHTML = value;
+      });
+      document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+        const value = lookup(translations[code], el.dataset.i18nPlaceholder);
+        if (typeof value === "string") el.placeholder = value;
+      });
+
+      /* Reflect active language in the switcher buttons */
+      document.querySelectorAll("[data-set-lang]").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.setLang === code);
+      });
+
+      try { localStorage.setItem("gidsly_lang", code); } catch (_) {}
+    }
+
+    function detectInitialLanguage() {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const urlLang = params.get("lang");
+        if (urlLang && AVAILABLE_LANGS.includes(urlLang)) return urlLang;
+
+        const stored = localStorage.getItem("gidsly_lang");
+        if (stored && AVAILABLE_LANGS.includes(stored)) return stored;
+
+        const browser = (navigator.language || "en").slice(0, 2).toLowerCase();
+        if (AVAILABLE_LANGS.includes(browser)) return browser;
+      } catch (_) {}
+      return "en";
+    }
+
+    /* Hide any language button whose code isn't in AVAILABLE_LANGS.
+       To expose a new language once its translations are reviewed,
+       add its code to AVAILABLE_LANGS — no HTML change needed. */
+    document.querySelectorAll("[data-set-lang]").forEach(btn => {
+      if (!AVAILABLE_LANGS.includes(btn.dataset.setLang)) {
+        btn.style.display = "none";
+      } else {
+        btn.addEventListener("click", () => setLanguage(btn.dataset.setLang));
+      }
+    });
+
+    setLanguage(detectInitialLanguage());
+
+    /* ═══════════════════════════════════════════════════════════════
+       Waitlist form submit — only one form on the page (in the closing
+       CTA). Submits email to Loops via a hidden iframe so the page
+       doesn't navigate away.
+       ═══════════════════════════════════════════════════════════════ */
+    function validEmail(v) { return v && v.includes('@') && v.includes('.'); }
+
+    function flashError(input) {
+      input.style.borderColor = '#e05a5a';
+      input.style.boxShadow   = '0 0 0 3px rgba(224, 90, 90, 0.12)';
+      input.focus();
+      setTimeout(() => { input.style.borderColor = ''; input.style.boxShadow = ''; }, 2000);
+    }
 
     function handleJoin() {
-      const input  = document.getElementById('emailInput');
-      const btn    = document.getElementById('joinBtn');
-      const email  = input.value.trim();
+      const input = document.getElementById('emailInput');
+      const btn   = document.getElementById('joinBtn');
+      const email = input.value.trim();
+      if (!validEmail(email)) return flashError(input);
+      btn.disabled = true; btn.textContent = 'Joining…';
 
-      // Basic validation
-      if (!email || !email.includes('@') || !email.includes('.')) {
-        input.style.borderColor = '#e05a5a';
-        input.style.boxShadow   = '0 0 0 3px rgba(224,90,90,0.12)';
-        input.focus();
-        setTimeout(() => { input.style.borderColor=''; input.style.boxShadow=''; }, 2000);
-        return;
-      }
-
-      btn.disabled     = true;
-      btn.textContent  = 'Joining…';
-
-      // Copy email into hidden Loops form and submit it into the invisible iframe
       document.getElementById('loopsEmail').value = email;
       document.getElementById('loopsForm').submit();
 
-      // Show success UI after a short delay (form posts in background via iframe)
       setTimeout(() => {
-        count++;
         document.getElementById('formDefault').style.display = 'none';
         document.getElementById('formSuccess').style.display = 'block';
-        document.getElementById('countText').textContent =
-          count.toLocaleString() + ' professionals already waiting';
-      }, 1000);
+      }, 900);
     }
 
     document.getElementById('emailInput').addEventListener('keydown', e => {
       if (e.key === 'Enter') handleJoin();
     });
+
+    /* Feature tab switching + 10-second auto-rotation.
+       Rotation starts on page load. Clicking any tab cancels the
+       rotation permanently — user control beats the auto-cycle. */
+    (function initFeatureTabs() {
+      const tabs = Array.from(document.querySelectorAll('.feat-tab'));
+      if (tabs.length === 0) return;
+
+      const ROTATION_MS = 10000;
+      let rotationInterval = null;
+
+      function activateTab(tab, { animateProgress = false } = {}) {
+        const id = tab.dataset.tab;
+
+        tabs.forEach(t => {
+          const isActive = t.dataset.tab === id;
+          t.classList.toggle('active', isActive);
+          t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+          // Clear every progress bar first so the newly-active one
+          // restarts cleanly from 0 on its next animation.
+          const bar = t.querySelector('.feat-tab-progress');
+          if (bar) bar.classList.remove('running');
+        });
+
+        document.querySelectorAll('.feat-panel').forEach(p => {
+          p.classList.toggle('active', p.dataset.panel === id);
+        });
+
+        if (animateProgress) {
+          const bar = tab.querySelector('.feat-tab-progress');
+          if (bar) {
+            // Force reflow so the width:0/opacity:0 reset takes effect
+            // before we re-add the class with the 10s transition.
+            void bar.offsetWidth;
+            requestAnimationFrame(() => bar.classList.add('running'));
+          }
+        }
+      }
+
+      function startRotation() {
+        // Animate the initial active tab's progress bar immediately.
+        const initial = tabs.find(t => t.classList.contains('active')) || tabs[0];
+        const bar = initial.querySelector('.feat-tab-progress');
+        if (bar) requestAnimationFrame(() => bar.classList.add('running'));
+
+        rotationInterval = setInterval(() => {
+          const activeIdx = tabs.findIndex(t => t.classList.contains('active'));
+          const nextIdx   = (activeIdx + 1) % tabs.length;
+          activateTab(tabs[nextIdx], { animateProgress: true });
+        }, ROTATION_MS);
+      }
+
+      function stopRotation() {
+        if (rotationInterval) {
+          clearInterval(rotationInterval);
+          rotationInterval = null;
+        }
+        tabs.forEach(t => {
+          const bar = t.querySelector('.feat-tab-progress');
+          if (bar) bar.classList.remove('running');
+        });
+      }
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          stopRotation();         // user has taken over
+          activateTab(tab);       // no progress bar in manual mode
+        });
+      });
+
+      startRotation();
+    })();
+
+    /* Contact form — AJAX submit to Netlify Forms.
+       On Netlify (production): POST to "/" is intercepted by the platform,
+       submission lands in Site → Forms, we show inline success.
+       In local dev: the POST to our live-server 404s, but we still show
+       success so the UX can be demoed. */
+    const contactForm    = document.getElementById('contactForm');
+    const contactSubmit  = document.getElementById('contactSubmit');
+    const contactSuccess = document.getElementById('contactSuccess');
+    if (contactForm) {
+      contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        contactSubmit.disabled = true;
+        contactSubmit.textContent = 'Sending…';
+
+        const data = new FormData(contactForm);
+        const body = new URLSearchParams(data).toString();
+        try {
+          await fetch('/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body
+          });
+        } catch (_err) {
+          /* Silent — the fetch can fail in local dev; production succeeds. */
+        } finally {
+          contactForm.style.display   = 'none';
+          contactSuccess.style.display = 'block';
+        }
+      });
+    }
   </script>
 </body>
 </html>
