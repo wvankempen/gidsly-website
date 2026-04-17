@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gidsly — Your Personal Career Companion.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green: #1c4538;
+      --green-dark: #143329;
+      --green-accent: #2d6a4f;
+      --cream: #f5e3cc;
+      --bg: #fbf9f4;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--green-dark);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0;
+    }
+
+    .orb { position: fixed; border-radius: 50%; filter: blur(130px); pointer-events: none; z-index: 0; }
+    .orb-1 { width: 700px; height: 700px; background: rgba(28,69,56,0.10); top: -250px; right: -200px; animation: d1 20s ease-in-out infinite alternate; }
+    .orb-2 { width: 500px; height: 500px; background: rgba(245,227,204,0.38); bottom: -80px; left: -120px; animation: d2 24s ease-in-out infinite alternate; }
+    .orb-3 { width: 320px; height: 320px; background: rgba(45,106,79,0.07); top: 45%; left: 28%; animation: d3 28s ease-in-out infinite alternate; }
+    @keyframes d1 { to { transform: translate(-70px,90px) scale(1.12); } }
+    @keyframes d2 { to { transform: translate(90px,-70px) scale(1.18); } }
+    @keyframes d3 { to { transform: translate(-50px,50px) scale(0.88); } }
+
+    .wrapper { position: relative; z-index: 1; max-width: 1140px; margin: 0 auto; padding: 0 2rem; }
+
+    /* NAV */
+    nav { padding: 2rem 0; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-family: 'Fraunces', serif; font-weight: 900; font-size: 1.8rem; color: var(--green); letter-spacing: -0.03em; }
+    .logo span { color: var(--green-accent); }
+    .nav-badge { background: rgba(28,69,56,0.08); border: 1px solid rgba(28,69,56,0.15); color: var(--green); font-size: 0.7rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.4rem 1rem; border-radius: 100px; }
+
+    /* HERO */
+    .hero { padding: 4.5rem 0 3.5rem; }
+    .hero-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--cream); border: 1px solid rgba(28,69,56,0.18);
+      color: var(--green-accent); font-size: 0.72rem; font-weight: 500;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      padding: 0.45rem 1.1rem; border-radius: 100px; margin-bottom: 1.8rem;
+      animation: fadeUp 0.8s ease both;
+    }
+    .hero-eyebrow::before { content: ''; width: 6px; height: 6px; background: var(--green-accent); border-radius: 50%; animation: pulse 2s ease infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
+
+    .hero h1 {
+      font-family: 'Fraunces', serif; font-weight: 900;
+      font-size: clamp(3rem, 5.5vw, 5.2rem);
+      line-height: 0.92; letter-spacing: -0.04em; color: var(--green);
+      margin-bottom: 1.2rem;
+      animation: fadeUp 0.8s 0.1s ease both;
+    }
+    .hero h1 em { font-style: italic; font-weight: 300; color: var(--green-accent); }
+
+    .hero-sub {
+      font-size: 1rem; font-weight: 300; color: var(--green-dark);
+      opacity: 0.65; line-height: 1.7; max-width: 420px;
+      animation: fadeUp 0.8s 0.2s ease both;
+    }
+
+    /* IMAGE COLLAGE */
+    .hero-right { position: relative; height: 520px; animation: fadeUp 0.9s 0.15s ease both; }
+
+    .img-card { position: absolute; border-radius: 2rem; overflow: hidden; box-shadow: 0 20px 60px rgba(28,69,56,0.18); }
+    .img-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .img-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(160deg, rgba(28,69,56,0.05) 0%, rgba(28,69,56,0.2) 100%); mix-blend-mode: multiply; }
+
+    .img-card-main { width: 68%; height: 370px; top: 0; right: 0; animation: float1 7s ease-in-out infinite alternate; }
+    .img-card-sm1  { width: 46%; height: 210px; bottom: 0; left: 0; animation: float2 9s ease-in-out infinite alternate; }
+    .img-card-sm2  { width: 36%; height: 150px; bottom: 60px; right: 0; animation: float3 8s ease-in-out infinite alternate; }
+
+    .img-tag {
+      position: absolute; bottom: 14px; left: 14px;
+      background: rgba(251,249,244,0.92); backdrop-filter: blur(10px);
+      border-radius: 100px; padding: 0.3rem 0.8rem;
+      font-size: 0.68rem; font-weight: 500; color: var(--green);
+      letter-spacing: 0.06em; z-index: 2;
+    }
+
+    @keyframes float1 { from{transform:translateY(0) rotate(-1deg)} to{transform:translateY(-12px) rotate(0.5deg)} }
+    @keyframes float2 { from{transform:translateY(0) rotate(1.5deg)} to{transform:translateY(-9px) rotate(-0.5deg)} }
+    @keyframes float3 { from{transform:translateY(0) rotate(-0.5deg)} to{transform:translateY(-7px) rotate(1deg)} }
+
+    /* FORM */
+    .form-section { margin: 3.5rem 0 0; animation: fadeUp 0.8s 0.35s ease both; }
+    .form-card {
+      background: rgba(255,255,255,0.65); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.85); border-radius: 2rem; padding: 2rem;
+      box-shadow: 0 8px 50px rgba(28,69,56,0.08), 0 1px 0 rgba(255,255,255,0.9) inset;
+    }
+    .form-label { display: block; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green); margin-bottom: 0.8rem; }
+    .input-row { display: flex; gap: 0.6rem; }
+    .input-field {
+      flex: 1; font-family: 'DM Sans', sans-serif; font-size: 0.95rem;
+      background: var(--bg); border: 1.5px solid rgba(28,69,56,0.15);
+      border-radius: 1.1rem; padding: 0.8rem 1.15rem; color: var(--green-dark); outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .input-field::placeholder { color: rgba(20,51,41,0.32); }
+    .input-field:focus { border-color: var(--green-accent); box-shadow: 0 0 0 3px rgba(45,106,79,0.12); }
+    .btn-join {
+      font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 500;
+      background: var(--green); color: var(--cream); border: none;
+      border-radius: 1.1rem; padding: 0.8rem 1.5rem;
+      cursor: pointer; white-space: nowrap;
+      transition: background .2s, transform .15s, box-shadow .2s;
+      box-shadow: 0 4px 18px rgba(28,69,56,0.28);
+    }
+    .btn-join:hover { background: var(--green-accent); transform: translateY(-1px); box-shadow: 0 8px 28px rgba(28,69,56,0.32); }
+    .btn-join:active { transform: translateY(0); }
+    .btn-join:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .form-note { margin-top: 0.8rem; font-size: 0.73rem; color: rgba(20,51,41,0.4); }
+
+    .success-state { display: none; text-align: center; padding: 0.5rem 0; }
+    .success-icon { width: 50px; height: 50px; background: var(--green); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; animation: popIn .4s cubic-bezier(.175,.885,.32,1.275) both; }
+    .success-icon svg { color: var(--cream); }
+    @keyframes popIn { from{transform:scale(0);opacity:0} to{transform:scale(1);opacity:1} }
+    .success-title { font-family: 'Fraunces', serif; font-weight: 700; font-size: 1.35rem; color: var(--green); margin-bottom: 0.35rem; }
+    .success-sub { font-size: 0.85rem; color: rgba(20,51,41,0.5); }
+
+    .join-count { margin-top: 1.2rem; font-size: 0.76rem; color: rgba(20,51,41,0.42); display: flex; align-items: center; gap: 0.5rem; }
+    .avatars { display: flex; }
+    .avatar { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--bg); margin-left: -6px; font-size: 0.6rem; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--cream); }
+    .avatar:first-child { margin-left: 0; }
+    .av1{background:#2d6a4f} .av2{background:#1c4538} .av3{background:#3a7d5c} .av4{background:#143329}
+
+    /* PROOF CARDS */
+    .proof-strip {
+      margin: 5rem 0;
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem;
+      animation: fadeUp 0.8s 0.3s ease both;
+    }
+    .proof-card {
+      background: rgba(255,255,255,0.55); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,0.8); border-radius: 2.2rem; overflow: hidden;
+      box-shadow: 0 4px 30px rgba(28,69,56,0.07);
+      transition: transform .3s, box-shadow .3s;
+    }
+    .proof-card:hover { transform: translateY(-6px); box-shadow: 0 16px 50px rgba(28,69,56,0.13); }
+    .proof-img-wrap { overflow: hidden; position: relative; }
+    .proof-img-wrap::after { content:''; position:absolute; inset:0; background: linear-gradient(to bottom, transparent 50%, rgba(28,69,56,0.22) 100%); }
+    .proof-img { width: 100%; height: 200px; object-fit: cover; display: block; transition: transform .5s ease; }
+    .proof-card:hover .proof-img { transform: scale(1.04); }
+    .proof-body { padding: 1.4rem 1.5rem 1.6rem; }
+    .proof-feature-tag { display: inline-block; background: var(--cream); color: var(--green-accent); font-size: 0.65rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.3rem 0.75rem; border-radius: 100px; margin-bottom: 0.75rem; }
+    .proof-title { font-family: 'Fraunces', serif; font-weight: 700; font-size: 1.1rem; color: var(--green); line-height: 1.25; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+    .proof-desc { font-size: 0.8rem; color: rgba(20,51,41,0.55); line-height: 1.6; }
+
+    /* FEATURES ROW */
+    .features-section { margin: 2rem 0 5rem; }
+    .section-label { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(20,51,41,0.38); margin-bottom: 1.6rem; text-align: center; }
+    .features-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 1rem; animation: fadeUp 0.8s 0.4s ease both; }
+    .feature-card {
+      background: rgba(255,255,255,0.55); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,0.75); border-radius: 2rem; padding: 1.5rem 1.1rem 1.4rem;
+      text-align: center; transition: transform .25s, box-shadow .25s;
+      box-shadow: 0 2px 18px rgba(28,69,56,0.05);
+    }
+    .feature-card:hover { transform: translateY(-5px); box-shadow: 0 14px 40px rgba(28,69,56,0.12); }
+    .feature-icon { width: 42px; height: 42px; background: var(--cream); border-radius: 1rem; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.85rem; }
+    .feature-icon svg { width: 19px; height: 19px; stroke: var(--green); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .feature-name { font-family: 'Fraunces', serif; font-weight: 700; font-size: 0.83rem; color: var(--green); line-height: 1.2; margin-bottom: 0.35rem; }
+    .feature-desc { font-size: 0.7rem; color: rgba(20,51,41,0.48); line-height: 1.5; }
+
+    /* QUOTE BAND */
+    .quote-band {
+      background: var(--green); border-radius: 3rem; margin: 0 0 5rem;
+      padding: 4rem 3.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;
+      position: relative; overflow: hidden;
+      animation: fadeUp 0.8s 0.3s ease both;
+    }
+    .quote-band::before { content: '\201C'; position: absolute; top: -1.5rem; left: 2rem; font-family: 'Fraunces', serif; font-size: 14rem; line-height: 1; color: rgba(245,227,204,0.07); pointer-events: none; }
+    .quote-text { font-family: 'Fraunces', serif; font-style: italic; font-weight: 300; font-size: clamp(1.4rem, 2.5vw, 1.9rem); color: var(--cream); line-height: 1.35; letter-spacing: -0.02em; }
+    .quote-author { margin-top: 1.2rem; font-size: 0.78rem; font-weight: 500; color: rgba(245,227,204,0.48); letter-spacing: 0.06em; }
+    .quote-img-wrap { border-radius: 2rem; overflow: hidden; height: 280px; position: relative; }
+    .quote-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+    .quote-img-wrap::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(28,69,56,0.3) 0%, transparent 60%); }
+
+    /* BOTTOM STRIP */
+    .bottom-strip {
+      background: var(--green); border-radius: 3rem 3rem 0 0;
+      padding: 3.5rem 3rem; display: flex; align-items: center; justify-content: space-between; gap: 2rem;
+      position: relative; overflow: hidden;
+    }
+    .bottom-strip::before { content:''; position:absolute; top:-80px; right:-80px; width:300px; height:300px; background:rgba(245,227,204,0.05); border-radius:50%; }
+    .strip-tagline { font-family:'Fraunces',serif; font-weight:900; font-size:clamp(1.5rem,3vw,2.2rem); color:var(--cream); line-height:1.1; letter-spacing:-0.03em; margin-bottom:.4rem; }
+    .strip-sub { font-size:.82rem; color:rgba(245,227,204,0.48); }
+    .strip-links { display:flex; gap:1.5rem; align-items:center; flex-shrink:0; }
+    .strip-link { font-size:.78rem; color:rgba(245,227,204,0.5); text-decoration:none; transition:color .2s; }
+    .strip-link:hover { color:var(--cream); }
+
+    @keyframes fadeUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+
+    /* RESPONSIVE */
+    @media(max-width:900px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .hero-right { height: 360px; }
+      .img-card-main { width: 72%; height: 280px; }
+      .img-card-sm1 { width: 50%; height: 180px; }
+      .img-card-sm2 { width: 40%; height: 130px; }
+      .proof-strip { grid-template-columns: 1fr 1fr; }
+      .proof-strip .proof-card:last-child { grid-column: 1/-1; }
+      .features-grid { grid-template-columns: repeat(3,1fr); }
+      .quote-band { grid-template-columns: 1fr; }
+      .quote-img-wrap { height: 220px; }
+    }
+    @media(max-width:640px) {
+      .hero h1 { font-size: 3rem; }
+      .proof-strip { grid-template-columns: 1fr; }
+      .proof-strip .proof-card:last-child { grid-column: auto; }
+      .features-grid { grid-template-columns: repeat(2,1fr); }
+      .features-grid .feature-card:last-child { grid-column: 1/-1; }
+      .input-row { flex-direction: column; }
+      .bottom-strip { flex-direction:column; text-align:center; border-radius:2rem 2rem 0 0; }
+      .strip-links { justify-content:center; }
+      .quote-band { padding: 2.5rem 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <div class="wrapper">
+
+    <!-- NAV -->
+    <nav>
+      <div class="logo">Gids<span>ly</span></div>
+      <div class="nav-badge">Coming Soon</div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-inner">
+
+        <div class="hero-left">
+          <div class="hero-eyebrow">Private Beta — Limited Access</div>
+          <h1>Your Personal<br><em>Career</em><br>Companion.</h1>
+          <p class="hero-sub">Gidsly is your personal career companion — guiding you through every application, interview, and career decision with the power of AI.</p>
+
+          <div class="form-section">
+            <div class="form-card">
+              <div id="formDefault">
+                <label class="form-label">Join the Waitlist</label>
+                <div class="input-row">
+                  <input type="email" class="input-field" id="emailInput" placeholder="your@email.com" autocomplete="email"/>
+                  <button class="btn-join" id="joinBtn" onclick="handleJoin()">Get Early Access</button>
+                </div>
+                <p class="form-note">No spam, ever. Unsubscribe anytime.</p>
+              </div>
+              <!-- Hidden iframe + form: submits to Loops without CORS issues -->
+              <iframe name="loops-hidden" style="display:none;"></iframe>
+              <form id="loopsForm"
+                action="https://app.loops.so/api/newsletter-form/cmmkyjbmr0c0i0i2lkd5ia0on"
+                method="POST"
+                target="loops-hidden"
+                style="display:none;">
+                <input type="email" name="email" id="loopsEmail"/>
+              </form>
+              <div class="success-state" id="formSuccess">
+                <div class="success-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="success-title">You're on the list!</div>
+                <p class="success-sub">We'll notify you the moment Gidsly opens its doors.</p>
+              </div>
+              <div class="join-count" id="joinCount">
+                <div class="avatars">
+                  <div class="avatar av1">A</div>
+                  <div class="avatar av2">M</div>
+                  <div class="avatar av3">J</div>
+                  <div class="avatar av4">R</div>
+                </div>
+                <span id="countText">2,841 professionals already waiting</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FLOATING IMAGE COLLAGE -->
+        <div class="hero-right">
+          <!-- Main: focused professional at laptop, warm tones -->
+          <div class="img-card img-card-main">
+            <img
+              src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=700&q=80&fit=crop&crop=faces,center"
+              alt="Professional focused at laptop"
+            />
+            <div class="img-tag">Deep focus mode</div>
+          </div>
+          <!-- Small left: collaboration / networking -->
+          <div class="img-card img-card-sm1">
+            <img
+              src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500&q=80&fit=crop&crop=faces,center"
+              alt="Professionals collaborating"
+            />
+            <div class="img-tag">Network smarter</div>
+          </div>
+          <!-- Small right: calm portrait -->
+          <div class="img-card img-card-sm2">
+            <img
+              src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&q=80&fit=crop&crop=faces,top"
+              alt="Confident professional"
+            />
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- FEATURE PROOF CARDS -->
+    <section class="proof-strip">
+
+      <div class="proof-card">
+        <div class="proof-img-wrap">
+          <img class="proof-img"
+            src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=80&fit=crop&crop=faces,center"
+            alt="Career journey"
+          />
+        </div>
+        <div class="proof-body">
+          <span class="proof-feature-tag">Journey CRM</span>
+          <div class="proof-title">Never lose track of an opportunity</div>
+          <p class="proof-desc">A visual pipeline that maps every stage of your search — applications, interviews, and follow-ups — with effortless clarity.</p>
+        </div>
+      </div>
+
+      <div class="proof-card">
+        <div class="proof-img-wrap">
+          <img class="proof-img"
+            src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=600&q=80&fit=crop&crop=center"
+            alt="Writing documents"
+          />
+        </div>
+        <div class="proof-body">
+          <span class="proof-feature-tag">AI Document Tailor</span>
+          <div class="proof-title">Resumes that speak the right language</div>
+          <p class="proof-desc">Our AI reads job descriptions and rewrites your materials to land in the top 10% — every single application.</p>
+        </div>
+      </div>
+
+      <div class="proof-card">
+        <div class="proof-img-wrap">
+          <img class="proof-img"
+            src="https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=600&q=80&fit=crop&crop=center"
+            alt="Wellness and calm"
+          />
+        </div>
+        <div class="proof-body">
+          <span class="proof-feature-tag">Wellness Coach</span>
+          <div class="proof-title">The emotional side of your search, covered</div>
+          <p class="proof-desc">Guided mindfulness, stress management, and AI-powered mock interviews — because your mental state is part of the strategy.</p>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- FEATURES STRIP -->
+    <section class="features-section">
+      <p class="section-label">Everything you need to thrive</p>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="5" height="18" rx="1"/><rect x="10" y="7" width="5" height="14" rx="1"/><rect x="17" y="11" width="4" height="10" rx="1"/></svg></div>
+          <div class="feature-name">Journey CRM</div>
+          <div class="feature-desc">Visual pipeline for every application stage</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9.5 12.5l1.5 1.5 3-3"/></svg></div>
+          <div class="feature-name">AI Tailor</div>
+          <div class="feature-desc">Optimise docs for any job description</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+          <div class="feature-name">Wellness Coach</div>
+          <div class="feature-desc">Mental health support & mock interviews</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/><path d="M17 14l1.5 1.5L21 13"/></svg></div>
+          <div class="feature-name">Essence Profile</div>
+          <div class="feature-desc">Your dynamic professional identity</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div>
+          <div class="feature-name">Network Intelligence</div>
+          <div class="feature-desc">Smart follow-ups & relationship nurturing</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUOTE / MOOD BAND -->
+    <div class="quote-band">
+      <div>
+        <div class="quote-text">"The job search isn't just a process. It's one of the most human experiences you'll ever navigate."</div>
+        <div class="quote-author">— Built with that truth in mind</div>
+      </div>
+      <div class="quote-img-wrap">
+        <img
+          src="https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?w=700&q=80&fit=crop&crop=faces,center"
+          alt="Team working together"
+        />
+      </div>
+    </div>
+
+  </div><!-- /wrapper -->
+
+  <!-- BOTTOM STRIP -->
+  <div class="wrapper" style="padding-bottom:0;">
+    <div class="bottom-strip">
+      <div>
+        <div class="strip-tagline">Be first.<br>Shape what's next.</div>
+        <div class="strip-sub">Early members get lifetime founding benefits.</div>
+      </div>
+      <div class="strip-links">
+        <a href="#" class="strip-link">Privacy Policy</a>
+        <a href="#" class="strip-link">Contact</a>
+        <a href="#" class="strip-link">© 2025 Gidsly</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let count = 2841;
+
+    function handleJoin() {
+      const input  = document.getElementById('emailInput');
+      const btn    = document.getElementById('joinBtn');
+      const email  = input.value.trim();
+
+      // Basic validation
+      if (!email || !email.includes('@') || !email.includes('.')) {
+        input.style.borderColor = '#e05a5a';
+        input.style.boxShadow   = '0 0 0 3px rgba(224,90,90,0.12)';
+        input.focus();
+        setTimeout(() => { input.style.borderColor=''; input.style.boxShadow=''; }, 2000);
+        return;
+      }
+
+      btn.disabled     = true;
+      btn.textContent  = 'Joining…';
+
+      // Copy email into hidden Loops form and submit it into the invisible iframe
+      document.getElementById('loopsEmail').value = email;
+      document.getElementById('loopsForm').submit();
+
+      // Show success UI after a short delay (form posts in background via iframe)
+      setTimeout(() => {
+        count++;
+        document.getElementById('formDefault').style.display = 'none';
+        document.getElementById('formSuccess').style.display = 'block';
+        document.getElementById('countText').textContent =
+          count.toLocaleString() + ' professionals already waiting';
+      }, 1000);
+    }
+
+    document.getElementById('emailInput').addEventListener('keydown', e => {
+      if (e.key === 'Enter') handleJoin();
+    });
+  </script>
+</body>
+</html>

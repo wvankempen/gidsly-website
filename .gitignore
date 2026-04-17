@@ -1,0 +1,11 @@
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+.idea/
+.vscode/
+
+# Redundant local-only archives — kept on disk for reference, not tracked
+files/
+files.zip
