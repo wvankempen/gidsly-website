@@ -13,7 +13,9 @@
  *
  * Required environment properties (set in Netlify → Site settings →
  * Environment variables):
- *   BREVO_API_KEY              Same key used by the app backend.
+ *   BREVO_KEY (or BREVO_API_KEY) — accepts either name so it works
+ *                              with whatever convention Netlify and
+ *                              the app backend happen to share.
  *
  * Optional:
  *   BREVO_WAITLIST_LIST_ID     Override the default waitlist id.
@@ -55,29 +57,15 @@ exports.handler = async (event) => {
     return { statusCode: 400, body: JSON.stringify({ error: 'invalid_email' }) };
   }
 
-  // Env. List id defaults to 2 (Gidsly's existing marketing list);
-  // the override exists so we can redirect waitlist signups to a
-  // different list later without a code deploy.
-  const apiKey = process.env.BREVO_API_KEY;
+  // Env. Accept BREVO_KEY or BREVO_API_KEY (the app backend uses the
+  // latter; Netlify was set with the former). List id defaults to 2
+  // (Gidsly's existing marketing list); override via
+  // BREVO_WAITLIST_LIST_ID for no-code redirects.
+  const apiKey = process.env.BREVO_KEY || process.env.BREVO_API_KEY;
   const listId = Number(process.env.BREVO_WAITLIST_LIST_ID || 2);
   if (!apiKey) {
-    // Temporary diagnostic — shows which env-var names the function
-    // runtime CAN see (names only, never values), so we can tell
-    // whether Netlify is scoping the key away from us or the name
-    // itself is off by a character. Remove once the key is wired.
-    const visibleEnvKeys = Object.keys(process.env)
-      .filter(k => /^BREVO|KEY$|^NODE_|CONTEXT$/i.test(k))
-      .sort();
-    console.error('[waitlist] missing BREVO_API_KEY env. Visible:', visibleEnvKeys);
-    return {
-      statusCode: 500,
-      body: JSON.stringify({
-        error:       'server_not_configured',
-        visibleEnvKeys,
-        nodeVersion: process.version,
-        context:     process.env.CONTEXT || null,
-      }),
-    };
+    console.error('[waitlist] missing BREVO_KEY / BREVO_API_KEY env');
+    return { statusCode: 500, body: JSON.stringify({ error: 'server_not_configured' }) };
   }
 
   // Best-effort source attribution so marketing can tell
