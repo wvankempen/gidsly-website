@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Privacy notice · Gidsly</title>
+  <meta name="description" content="How Gidsly handles your data. What we collect, why, where it lives, and how to delete it." />
+  <meta name="robots" content="index,follow" />
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%231c4538'/><text x='50' y='74' text-anchor='middle' fill='%23f5e3cc' font-family='Georgia,serif' font-weight='700' font-size='78'>G</text></svg>" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900&family=Inter:wght@300;400;500;600;700&family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:       #1c4538;
+      --green-dark:  #143329;
+      --green-soft:  #2d6a4f;
+      --cream:       #f5e3cc;
+      --bg:          #fbf9f4;
+      --ink:         #143329;
+      --muted:       rgba(20, 51, 41, 0.55);
+      --muted-2:     rgba(20, 51, 41, 0.35);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg); color: var(--ink);
+      line-height: 1.65;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--green); text-decoration: underline; text-underline-offset: 2px; font-weight: 500; }
+    a:hover { color: var(--green-dark); }
+
+    .wrapper { max-width: 860px; margin: 0 auto; padding: 0 1.5rem; }
+
+    /* Nav */
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid rgba(20,51,41,0.08);
+    }
+    .brand { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; }
+    .brand-mark { width: 34px; height: 34px; border-radius: 7px; }
+    .brand-word { font-family: 'Libre Baskerville', Georgia, serif; font-size: 1.35rem; font-weight: 700; color: var(--green); letter-spacing: -0.03em; }
+    .nav-links { display: flex; align-items: center; gap: 1.25rem; font-size: 0.85rem; font-weight: 600; color: var(--muted); }
+    .nav-links a { color: inherit; text-decoration: none; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.75rem; font-weight: 700; }
+    .nav-links a:hover { color: var(--green); }
+
+    /* Hero */
+    .page-hero { padding: 3rem 0 1.5rem; }
+    .page-eyebrow {
+      display: inline-block;
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--green-soft); margin-bottom: 0.75rem;
+    }
+    .page-hero h1 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 900; letter-spacing: -0.02em; line-height: 1.05;
+      color: var(--green);
+    }
+    .draft-banner {
+      background: var(--cream); border: 1px solid rgba(28,69,56,0.15);
+      border-radius: 14px; padding: 1rem 1.25rem;
+      font-size: 0.9rem; color: var(--ink);
+      margin: 2rem 0 3rem;
+    }
+    .draft-banner strong { font-weight: 800; }
+
+    /* Body */
+    article { padding-bottom: 4rem; }
+    article h1, article h2, article h3, article h4 {
+      font-family: 'Fraunces', Georgia, serif;
+      color: var(--green); letter-spacing: -0.01em;
+    }
+    article h1 { font-size: 1.9rem; font-weight: 800; margin: 2.5rem 0 1rem; }
+    article h2 { font-size: 1.45rem; font-weight: 700; margin: 2rem 0 0.75rem; }
+    article h3 { font-size: 1.15rem; font-weight: 700; margin: 1.5rem 0 0.5rem; }
+    article h4 {
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 0.85rem; font-weight: 700; letter-spacing: 0.05em;
+      text-transform: uppercase; margin: 1.25rem 0 0.5rem;
+      color: var(--muted);
+    }
+    article p { margin: 0 0 1rem; }
+    article ul, article ol { margin: 0 0 1rem 1.25rem; padding-left: 0.25rem; }
+    article ul { list-style: disc; }
+    article ol { list-style: decimal; }
+    article li { margin-bottom: 0.35rem; }
+    article li > p { margin: 0; }
+    article strong { font-weight: 700; }
+    article em { font-style: italic; }
+    article hr { border: 0; border-top: 1px solid rgba(20,51,41,0.1); margin: 2rem 0; }
+    article code {
+      background: rgba(28,69,56,0.05); padding: 0.1rem 0.35rem;
+      border-radius: 4px; font-size: 0.85em;
+      font-family: 'Menlo', 'Consolas', monospace;
+    }
+    article blockquote {
+      border-left: 3px solid rgba(28,69,56,0.2);
+      padding: 0.25rem 1rem; margin: 1rem 0;
+      color: var(--muted); font-style: italic;
+    }
+    article table {
+      width: 100%; border-collapse: collapse;
+      margin: 1rem 0; font-size: 0.9rem;
+    }
+    article th, article td {
+      border: 1px solid rgba(20,51,41,0.1);
+      padding: 0.5rem 0.75rem; text-align: left; vertical-align: top;
+    }
+    article th { background: rgba(28,69,56,0.04); font-weight: 700; }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid rgba(20,51,41,0.08);
+      padding: 2rem 0 3rem;
+      color: var(--muted); font-size: 0.85rem;
+    }
+    footer .footer-row {
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+    }
+    footer a { color: var(--muted); text-decoration: none; }
+    footer a:hover { color: var(--green); }
+    footer .footer-links { display: flex; gap: 1.25rem; }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+
+    <nav>
+      <a href="/" class="brand" aria-label="Gidsly home">
+        <svg class="brand-mark" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="100" height="100" fill="#1c4538"/>
+          <text x="50" y="72" text-anchor="middle" fill="#f5e3cc" style="font-family:'Libre Baskerville',serif;font-weight:700;font-size:75px;">G</text>
+        </svg>
+        <span class="brand-word">Gidsly</span>
+      </a>
+      <div class="nav-links">
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+      </div>
+    </nav>
+
+    <header class="page-hero">
+      <span class="page-eyebrow">Privacy</span>
+      <h1>Privacy notice</h1>
+      <div class="draft-banner">
+        <strong>Draft.</strong> This privacy reflects how Gidsly actually operates today. It will be edited into final legal language once Gidsly B.V. is formally registered (expected 8 May 2026) and reviewed by a Dutch commercial lawyer. Every section below is accurate to our current practice.
+      </div>
+    </header>
+
+    <article>
+<h2>1. Who is responsible for your data?</h2>
+<p>Gidsly is (or will shortly be) operated by <strong>Gidsly B.V.</strong>, a private limited
+company registered in the Netherlands. Once the company is registered you will
+find the KvK (Chamber of Commerce) number and registered address here.</p>
+<p>If you want to reach us about your data or this notice:</p>
+<ul>
+<li><strong>Email:</strong> <em>placeholder, e.g. <a href="mailto:privacy@gidsly.app">privacy@gidsly.app</a></em></li>
+<li><strong>Post:</strong> <em>placeholder, BV registered address</em></li>
+<li><strong>Data Protection contact:</strong> Willem Gavalas</li>
+</ul>
+<p>We are the <strong>data controller</strong> for the personal data described in this notice.
+Any vendor helping us process your data (our <strong>sub-processors</strong>) is listed in
+<a href="subprocessors.md">subprocessors.md</a>.</p>
+<h2>2. What is Gidsly?</h2>
+<p>Gidsly is a career companion app. It helps you track job applications, tailor
+your CV and cover letters, practise interviews, and manage the emotional side
+of a career transition. Everything below is how we handle the data you give us
+while using it.</p>
+<h2>3. What personal data we collect</h2>
+<p>We collect only what we need to run the service. The complete reference is in
+our internal <a href="data-map.md">data map</a>; the summary here is what you give us
+directly:</p>
+<h3>3.1 When you create an account</h3>
+<ul>
+<li><strong>First name, last name, email address.</strong> Required for an account.</li>
+<li><strong>Password.</strong> Stored as a cryptographic hash; we never see your actual
+password.</li>
+<li><strong>Phone number.</strong> <strong>Optional.</strong> If you provide it we may use it later for
+multi-factor authentication; never for marketing.</li>
+</ul>
+<h3>3.2 When you build your profile</h3>
+<ul>
+<li><strong>Career context:</strong> job title, current company, experience level, career
+goals, work preferences, salary expectations.</li>
+<li><strong>Education, work history, skills, certifications, projects, languages.</strong></li>
+<li><strong>Address.</strong> So we can match you to roles in the right region.</li>
+<li><strong>Age bracket</strong> (optional; e.g. &quot;35–44&quot;). We do <strong>not</strong> collect your exact
+date of birth.</li>
+<li><strong>Pronouns</strong> (optional).</li>
+</ul>
+<p>We do <strong>not</strong> collect: ethnicity, sex, disability status, veteran status. We
+removed these in April 2026 because they weren&#39;t essential to the service.</p>
+<h3>3.3 When you use Gidsly</h3>
+<ul>
+<li><strong>Job applications you add</strong>, including company, role, dates, status, notes.</li>
+<li><strong>Documents you upload</strong> (CVs, cover letters, job postings).</li>
+<li><strong>Contacts you explicitly link</strong> to an application (recruiters, referrers).
+We do <strong>not</strong> auto-import your whole address book.</li>
+<li><strong>Conversations</strong> you have with Gidsly&#39;s AI features (document tailoring,
+coaching, wellness support), stored as text.</li>
+<li><strong>Voice input.</strong> If you speak to Gidsly, your speech is converted to text
+immediately and the <strong>raw audio is discarded</strong>. We never retain audio
+recordings.</li>
+</ul>
+<h3>3.4 When you connect an email or calendar</h3>
+<p>If you choose to connect your email / calendar via <strong>Nylas</strong>:</p>
+<ul>
+<li>We access the threads, messages and contacts needed for the features you
+use. We do <strong>not</strong> build a permanent copy of your inbox; email content is
+cached briefly (about an hour) then discarded.</li>
+<li>You can disconnect at any time from your account settings.</li>
+</ul>
+<h3>3.5 Automatically</h3>
+<ul>
+<li><strong>Basic technical data</strong> to operate the service: IP address, browser,
+device type, pages visited, times of action. Used for security and
+debugging.</li>
+<li><strong>Errors</strong>, via our error-tracking subprocessor, to fix bugs.</li>
+</ul>
+<h3>3.6 When you chat with us</h3>
+<p>A chat widget is available to signed-in users. If you message us, the
+transcript (whatever you type), your IP address, and your browser are
+processed by <strong>Brevo Conversations</strong> on our behalf and stored on
+Brevo&#39;s EU-resident infrastructure so we can read and reply. We use
+these transcripts only to respond to you and to improve the product.
+The widget does not load on logged-out pages.</p>
+<h3>3.7 When you import your LinkedIn profile (optional)</h3>
+<p>If you choose to import your LinkedIn profile into your Gidsly
+Essence, we ask <strong>LinkedIn</strong> for a copy of your own profile data on
+your behalf, using LinkedIn&#39;s Member Data Portability API under the
+EU Digital Markets Act.</p>
+<p>What we receive: headline, summary, work experience, education,
+skills, certifications, and languages. We do <strong>not</strong> receive your
+connections, messages, posts, endorsements, or recommendations.</p>
+<p>What we do with it: show you a preview, let you edit anything, and
+save the result into your Essence as your own editable content. The
+LinkedIn access token we use to fetch the data is held in memory for
+the duration of the import only and is never stored.</p>
+<p>This import is entirely optional; you can build your Essence
+manually and never connect LinkedIn. If you do connect and later
+change your mind, the imported data becomes your Essence content
+and can be edited or deleted at any time like everything else.</p>
+<h3>3.8 What we do NOT collect</h3>
+<ul>
+<li>No tracking cookies beyond what&#39;s needed to run the site.</li>
+<li>No advertising pixels.</li>
+<li>No selling of data to third parties, ever.</li>
+<li>No social-graph data beyond the contacts you explicitly add.</li>
+</ul>
+<h2>4. Why we process your data, and on what legal basis</h2>
+<table>
+<thead>
+<tr>
+<th>Purpose</th>
+<th>Legal basis (GDPR Art. 6)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Providing the service you signed up for (storing your profile, applications, etc.)</td>
+<td>Performance of a contract</td>
+</tr>
+<tr>
+<td>Keeping the service secure and preventing abuse</td>
+<td>Legitimate interest</td>
+</tr>
+<tr>
+<td>Sending service-related messages (password resets, security alerts)</td>
+<td>Performance of a contract</td>
+</tr>
+<tr>
+<td>Sending marketing emails (when and if we offer them)</td>
+<td><strong>Consent</strong>: opt-in only; always optional</td>
+</tr>
+<tr>
+<td>Complying with legal obligations (tax records, incident reporting)</td>
+<td>Legal obligation</td>
+</tr>
+<tr>
+<td>Improving Gidsly (aggregated analytics, anonymised feedback)</td>
+<td>Legitimate interest</td>
+</tr>
+</tbody></table>
+<p>We do not process <strong>special category data</strong> (as defined by GDPR Art. 9).
+The product deliberately avoids collecting it.</p>
+<h2>5. Who we share your data with</h2>
+<p>We share personal data only with the sub-processors listed in
+<a href="subprocessors.md">subprocessors.md</a>, and only to the extent they need to
+provide their service to us. In plain language, those are:</p>
+<ul>
+<li><strong>Anthropic</strong>, runs the AI that powers document tailoring and coaching.</li>
+<li><strong>ElevenLabs</strong>, generates the synthetic voice for Gidsly&#39;s spoken
+responses.</li>
+<li><strong>Nylas</strong>, provides the connection to your email and calendar, when you
+connect one.</li>
+<li><strong>Vercel</strong>, hosts the Gidsly web app.</li>
+<li><strong>Google Fonts</strong>, serves the font the UI uses.</li>
+</ul>
+<p>After May 2026 we expect to add <strong>AWS</strong> (for EU-based cloud hosting) and
+a dedicated authentication provider. We&#39;ll update this section before
+those vendors start processing data.</p>
+<p>We do <strong>not</strong> sell your data, and we never share it with advertisers or
+data brokers.</p>
+<h2>6. Where your data is processed</h2>
+<p>The Gidsly team is based in the Netherlands. Our production data storage
+will be in <strong>Frankfurt, Germany</strong> (EU region) once AWS is in place.</p>
+<p>Some subprocessors are based in the United States. Where that&#39;s the case,
+we rely on the <strong>EU–US Data Privacy Framework</strong> and <strong>Standard Contractual
+Clauses</strong> as the safeguard for transfers, and we prefer vendors who offer
+EU-region processing.</p>
+<h2>7. How long we keep your data</h2>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Retention</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Your account and profile</td>
+<td>For as long as your account is active. Deleted ~30 days after you close it (grace period for accidental deletions), then permanently.</td>
+</tr>
+<tr>
+<td>Job applications, todos, documents</td>
+<td>Same as the account.</td>
+</tr>
+<tr>
+<td>AI conversation history</td>
+<td>Kept indefinitely by default; you can delete individual conversations at any time.</td>
+</tr>
+<tr>
+<td>Voice input</td>
+<td>Raw audio is discarded immediately after transcription.</td>
+</tr>
+<tr>
+<td>Email content cached from Nylas</td>
+<td>About an hour, then discarded.</td>
+</tr>
+<tr>
+<td>Error logs</td>
+<td>90 days.</td>
+</tr>
+<tr>
+<td>Audit logs (security events about your account)</td>
+<td>Deleted together with your account.</td>
+</tr>
+<tr>
+<td>Consent records</td>
+<td>Kept while the account is active, and for the legally required period afterwards to prove we obtained valid consent.</td>
+</tr>
+</tbody></table>
+<h2>8. Your rights</h2>
+<p>Under GDPR you have the right to:</p>
+<ul>
+<li><strong>Access</strong>: ask for a copy of your personal data.</li>
+<li><strong>Rectification</strong>: correct inaccurate data.</li>
+<li><strong>Erasure</strong> (&quot;right to be forgotten&quot;): ask us to delete your account and
+your data.</li>
+<li><strong>Restriction</strong>: ask us to stop using certain data.</li>
+<li><strong>Portability</strong>: get your data in a structured, machine-readable format
+you can take elsewhere.</li>
+<li><strong>Object</strong>: to processing based on legitimate interest.</li>
+<li><strong>Withdraw consent</strong>: where we rely on consent (e.g. marketing emails).</li>
+<li><strong>Complain</strong> to the Dutch supervisory authority (<strong>Autoriteit
+Persoonsgegevens</strong>, <a href="https://autoriteitpersoonsgegevens.nl/">autoriteitpersoonsgegevens.nl</a>)
+if you think we&#39;ve mishandled your data.</li>
+</ul>
+<p>You can exercise most of these rights directly in the app: <em>Account
+Settings → Your Data</em>. For anything that doesn&#39;t have a button yet, email
+us (see §1).</p>
+<p>We&#39;ll respond within 30 days at the latest.</p>
+<h2>9. How we keep your data safe</h2>
+<ul>
+<li>All data in transit is encrypted (HTTPS).</li>
+<li>Data at rest is encrypted in our database and file storage.</li>
+<li>Access to production data is limited to Willem today, and will be
+restricted via proper access controls as the team grows.</li>
+<li>We keep an internal audit log of access to personal data.</li>
+<li>If a breach ever happens, we follow the procedure in
+<a href="incident-response.md">incident-response.md</a>; where legally required
+we&#39;ll notify you within 72 hours.</li>
+</ul>
+<h2>10. Children</h2>
+<p>Gidsly is not for children under 18. We ask you to confirm you are 18 or
+older when you sign up. If we discover an account belongs to a child we&#39;ll
+delete it.</p>
+<h2>11. Changes to this notice</h2>
+<p>We may update this notice when the product changes or when the law changes.
+Material changes are communicated in the app, and we may ask you to
+re-consent before you can keep using Gidsly. Every version is archived and
+we can tell you which version you agreed to on which date.</p>
+<h2>12. Contact</h2>
+<p>Any question about this notice, your data, or our practices, reach us at
+the contact in §1.</p>
+<hr>
+
+    </article>
+
+    <footer>
+      <div class="footer-row">
+        <div>Gidsly · Amsterdam · Being built in the Netherlands</div>
+        <div class="footer-links">
+          <a href="/privacy">Privacy</a>
+          <a href="/terms">Terms</a>
+          <span>© 2026 Gidsly</span>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+</body>
+</html>

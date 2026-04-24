@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Terms of Service · Gidsly</title>
+  <meta name="description" content="The ground rules for using Gidsly. Fair-use, account suspension, liability, and the usual legal shape." />
+  <meta name="robots" content="index,follow" />
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%231c4538'/><text x='50' y='74' text-anchor='middle' fill='%23f5e3cc' font-family='Georgia,serif' font-weight='700' font-size='78'>G</text></svg>" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900&family=Inter:wght@300;400;500;600;700&family=Libre+Baskerville:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:       #1c4538;
+      --green-dark:  #143329;
+      --green-soft:  #2d6a4f;
+      --cream:       #f5e3cc;
+      --bg:          #fbf9f4;
+      --ink:         #143329;
+      --muted:       rgba(20, 51, 41, 0.55);
+      --muted-2:     rgba(20, 51, 41, 0.35);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg); color: var(--ink);
+      line-height: 1.65;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--green); text-decoration: underline; text-underline-offset: 2px; font-weight: 500; }
+    a:hover { color: var(--green-dark); }
+
+    .wrapper { max-width: 860px; margin: 0 auto; padding: 0 1.5rem; }
+
+    /* Nav */
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid rgba(20,51,41,0.08);
+    }
+    .brand { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; }
+    .brand-mark { width: 34px; height: 34px; border-radius: 7px; }
+    .brand-word { font-family: 'Libre Baskerville', Georgia, serif; font-size: 1.35rem; font-weight: 700; color: var(--green); letter-spacing: -0.03em; }
+    .nav-links { display: flex; align-items: center; gap: 1.25rem; font-size: 0.85rem; font-weight: 600; color: var(--muted); }
+    .nav-links a { color: inherit; text-decoration: none; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.75rem; font-weight: 700; }
+    .nav-links a:hover { color: var(--green); }
+
+    /* Hero */
+    .page-hero { padding: 3rem 0 1.5rem; }
+    .page-eyebrow {
+      display: inline-block;
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--green-soft); margin-bottom: 0.75rem;
+    }
+    .page-hero h1 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 900; letter-spacing: -0.02em; line-height: 1.05;
+      color: var(--green);
+    }
+    .draft-banner {
+      background: var(--cream); border: 1px solid rgba(28,69,56,0.15);
+      border-radius: 14px; padding: 1rem 1.25rem;
+      font-size: 0.9rem; color: var(--ink);
+      margin: 2rem 0 3rem;
+    }
+    .draft-banner strong { font-weight: 800; }
+
+    /* Body */
+    article { padding-bottom: 4rem; }
+    article h1, article h2, article h3, article h4 {
+      font-family: 'Fraunces', Georgia, serif;
+      color: var(--green); letter-spacing: -0.01em;
+    }
+    article h1 { font-size: 1.9rem; font-weight: 800; margin: 2.5rem 0 1rem; }
+    article h2 { font-size: 1.45rem; font-weight: 700; margin: 2rem 0 0.75rem; }
+    article h3 { font-size: 1.15rem; font-weight: 700; margin: 1.5rem 0 0.5rem; }
+    article h4 {
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 0.85rem; font-weight: 700; letter-spacing: 0.05em;
+      text-transform: uppercase; margin: 1.25rem 0 0.5rem;
+      color: var(--muted);
+    }
+    article p { margin: 0 0 1rem; }
+    article ul, article ol { margin: 0 0 1rem 1.25rem; padding-left: 0.25rem; }
+    article ul { list-style: disc; }
+    article ol { list-style: decimal; }
+    article li { margin-bottom: 0.35rem; }
+    article li > p { margin: 0; }
+    article strong { font-weight: 700; }
+    article em { font-style: italic; }
+    article hr { border: 0; border-top: 1px solid rgba(20,51,41,0.1); margin: 2rem 0; }
+    article code {
+      background: rgba(28,69,56,0.05); padding: 0.1rem 0.35rem;
+      border-radius: 4px; font-size: 0.85em;
+      font-family: 'Menlo', 'Consolas', monospace;
+    }
+    article blockquote {
+      border-left: 3px solid rgba(28,69,56,0.2);
+      padding: 0.25rem 1rem; margin: 1rem 0;
+      color: var(--muted); font-style: italic;
+    }
+    article table {
+      width: 100%; border-collapse: collapse;
+      margin: 1rem 0; font-size: 0.9rem;
+    }
+    article th, article td {
+      border: 1px solid rgba(20,51,41,0.1);
+      padding: 0.5rem 0.75rem; text-align: left; vertical-align: top;
+    }
+    article th { background: rgba(28,69,56,0.04); font-weight: 700; }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid rgba(20,51,41,0.08);
+      padding: 2rem 0 3rem;
+      color: var(--muted); font-size: 0.85rem;
+    }
+    footer .footer-row {
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+    }
+    footer a { color: var(--muted); text-decoration: none; }
+    footer a:hover { color: var(--green); }
+    footer .footer-links { display: flex; gap: 1.25rem; }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+
+    <nav>
+      <a href="/" class="brand" aria-label="Gidsly home">
+        <svg class="brand-mark" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="100" height="100" fill="#1c4538"/>
+          <text x="50" y="72" text-anchor="middle" fill="#f5e3cc" style="font-family:'Libre Baskerville',serif;font-weight:700;font-size:75px;">G</text>
+        </svg>
+        <span class="brand-word">Gidsly</span>
+      </a>
+      <div class="nav-links">
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+      </div>
+    </nav>
+
+    <header class="page-hero">
+      <span class="page-eyebrow">Terms</span>
+      <h1>Terms of Service</h1>
+      <div class="draft-banner">
+        <strong>Draft.</strong> This terms reflects how Gidsly actually operates today. It will be edited into final legal language once Gidsly B.V. is formally registered (expected 8 May 2026) and reviewed by a Dutch commercial lawyer. Every section below is accurate to our current practice.
+      </div>
+    </header>
+
+    <article>
+<h2>1. Who we are and what these Terms cover</h2>
+<p>These Terms of Service (&quot;<strong>Terms</strong>&quot;) govern your use of <strong>Gidsly</strong>, a
+career-companion service operated by <strong>Gidsly B.V.</strong> (&quot;<strong>we</strong>&quot;, &quot;<strong>us</strong>&quot;,
+&quot;<strong>our</strong>&quot;), registered in the Netherlands (KvK <em>placeholder</em>).</p>
+<p>By creating an account or otherwise using Gidsly, you (&quot;<strong>you</strong>&quot;, the
+&quot;<strong>User</strong>&quot;) agree to these Terms. If you don&#39;t agree, don&#39;t use Gidsly.</p>
+<p>Your data is handled per our separate <a href="privacy-notice.md">Privacy Notice</a>,
+which forms part of your relationship with us.</p>
+<h2>2. What Gidsly is (and what it is not)</h2>
+<p>Gidsly helps you manage a career transition by tracking applications,
+tailoring documents, practising interviews, and supporting the emotional
+side of job searching. It uses AI to generate suggestions.</p>
+<p>Gidsly is <strong>not</strong>:</p>
+<ul>
+<li>a recruitment agency;</li>
+<li>a guarantee of a job or any particular outcome;</li>
+<li>qualified legal, financial, medical, or mental-health advice; or</li>
+<li>a substitute for professional career counselling or therapy.</li>
+</ul>
+<p>AI-generated suggestions are <strong>suggestions</strong>. You are responsible for
+reviewing anything Gidsly produces before you send it to a human
+(employer, recruiter, reference) or act on it.</p>
+<h2>3. Eligibility</h2>
+<p>To use Gidsly you must:</p>
+<ul>
+<li>be at least <strong>18 years old</strong>;</li>
+<li>have the legal capacity to enter into a contract;</li>
+<li>provide accurate information about yourself when signing up.</li>
+</ul>
+<p>We may suspend or terminate an account that violates these requirements.</p>
+<h2>4. Your account</h2>
+<ul>
+<li>You&#39;re responsible for keeping your login details confidential and for
+everything that happens under your account.</li>
+<li>If you suspect unauthorised access, tell us as soon as possible.</li>
+<li>One person, one account, unless we explicitly agree otherwise in
+writing.</li>
+</ul>
+<h2>5. Acceptable use</h2>
+<p>You agree <strong>not</strong> to:</p>
+<ul>
+<li>use Gidsly to harass, defame or impersonate anyone;</li>
+<li>upload content you don&#39;t have the right to use (including other
+people&#39;s personal data, without their knowledge);</li>
+<li>submit content that is illegal, hateful, sexually explicit, or
+otherwise unlawful in the Netherlands or the EU;</li>
+<li>attempt to reverse-engineer, disassemble, or circumvent the security
+of Gidsly;</li>
+<li>use Gidsly to build a competing service or to scrape its outputs in
+bulk;</li>
+<li>use Gidsly to generate fraudulent applications, fake identities, or
+misleading CVs.</li>
+</ul>
+<p>Violations may result in account suspension or termination.</p>
+<h2>6. Your content</h2>
+<ul>
+<li><strong>You own your content.</strong> Your CV, your applications, your notes, your
+conversations, your contacts. That data belongs to you.</li>
+<li><strong>You grant us a limited licence</strong> to process that content for the
+sole purpose of providing Gidsly to you: storing it, displaying it
+back to you, running AI on it to produce suggestions, and backing
+it up. This licence ends when you delete the content or close your
+account.</li>
+<li><strong>We never sell your content or use it to train third-party AI
+models.</strong> When we send content to AI providers (listed in the
+Privacy Notice), it is for producing responses only, and those
+providers are contractually prohibited from using it for other
+purposes.</li>
+<li><strong>You confirm</strong> that the content you upload doesn&#39;t infringe anyone
+else&#39;s rights (copyright, privacy, etc.) and doesn&#39;t include
+sensitive third-party data you aren&#39;t entitled to share.</li>
+</ul>
+<h2>7. Our content and AI output</h2>
+<ul>
+<li>The Gidsly software, brand, design, and surrounding materials are
+<strong>our</strong> intellectual property. We grant you a personal,
+non-transferable, revocable licence to use Gidsly while you have an
+active account.</li>
+<li>AI-generated text that Gidsly produces <strong>for you</strong>, based on your
+input, is yours to use in your job search. It&#39;s a derivative of your
+content combined with our service.</li>
+<li>You may not claim the Gidsly software, or screenshots of it, as your
+own work.</li>
+</ul>
+<h2>8. Pricing and paid features</h2>
+<ul>
+<li>During the Friendly User Trial phase, Gidsly is free to invited
+users.</li>
+<li>When paid plans are introduced, the prices, included features, and
+billing terms will be made clear before you subscribe, and you&#39;ll be
+asked to agree separately.</li>
+<li>We won&#39;t start charging you for something that was previously free
+without notice and a chance to opt out.</li>
+</ul>
+<h2>9. Service availability</h2>
+<ul>
+<li>We do our best to keep Gidsly running well, but we can&#39;t guarantee
+100% uptime.</li>
+<li>Gidsly may be unavailable for maintenance, upgrades, or due to issues
+with our sub-processors.</li>
+<li>For outages we aim for prompt communication and honest timelines.</li>
+</ul>
+<h2>10. Third-party services</h2>
+<p>Gidsly connects to third-party services (e.g. Anthropic for AI, Nylas
+for email/calendar, ElevenLabs for voice) listed in
+<a href="subprocessors.md">subprocessors.md</a>. When you use those integrations you
+are also subject to the relevant third party&#39;s terms.</p>
+<p>If a third-party service is unavailable, parts of Gidsly that depend on
+it may not work until it&#39;s restored.</p>
+<h2>11. Termination</h2>
+<ul>
+<li><strong>By you:</strong> you can close your account at any time from <em>Account
+Settings → Delete account</em>. We&#39;ll delete your personal data as
+described in the Privacy Notice.</li>
+<li><strong>By us:</strong> we may suspend or terminate your account if you breach
+these Terms, if you use Gidsly in a way that creates legal risk, or
+if we have to stop offering the service. We&#39;ll give you reasonable
+notice and an explanation where possible.</li>
+<li>Termination doesn&#39;t affect rights and obligations that by their
+nature survive (e.g. §6 content licences for content you&#39;ve already
+sent to us before termination, §13 liability limits, §14 governing
+law).</li>
+</ul>
+<h2>12. Disclaimers</h2>
+<p>Gidsly is provided <strong>&quot;as is&quot;</strong> and <strong>&quot;as available&quot;</strong>, to the maximum
+extent permitted by law. We don&#39;t warrant that:</p>
+<ul>
+<li>the service will be uninterrupted or error-free;</li>
+<li>the AI output will be accurate, complete, or suitable for a specific
+employer;</li>
+<li>you&#39;ll get a job as a result of using Gidsly.</li>
+</ul>
+<p>Nothing in this section limits any rights you have under mandatory
+Dutch or EU consumer law.</p>
+<h2>13. Limitation of liability</h2>
+<p>To the maximum extent permitted by applicable law:</p>
+<ul>
+<li>Our total liability for any claim arising out of or relating to the
+Terms or your use of Gidsly is limited to the amount you paid us in
+the 12 months before the claim arose, or €100, whichever is greater.</li>
+<li>We are not liable for indirect, incidental, special, or consequential
+damages, including lost income, lost opportunities, or lost job
+offers.</li>
+<li>Nothing in these Terms limits liability for fraud, intentional
+misconduct, or anything else that cannot be limited under Dutch law.</li>
+</ul>
+<h2>14. Governing law and jurisdiction</h2>
+<p>These Terms are governed by <strong>Dutch law</strong>. Any disputes will be brought
+before the competent court in <strong>Amsterdam</strong>, the Netherlands, unless
+mandatory consumer-protection rules grant you a different right to
+your local court.</p>
+<h2>15. Changes to these Terms</h2>
+<p>We may update these Terms. Material changes are communicated in the app,
+and we may ask you to re-agree before you can keep using Gidsly.
+Continued use after an update means you accept the updated Terms. Every
+version is archived and we can tell you which version you agreed to on
+which date.</p>
+<h2>16. Contact</h2>
+<p>Questions about these Terms: see the contact details in the
+<a href="privacy-notice.md#12-contact">Privacy Notice</a>.</p>
+<hr>
+
+    </article>
+
+    <footer>
+      <div class="footer-row">
+        <div>Gidsly · Amsterdam · Being built in the Netherlands</div>
+        <div class="footer-links">
+          <a href="/privacy">Privacy</a>
+          <a href="/terms">Terms</a>
+          <span>© 2026 Gidsly</span>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+</body>
+</html>
