@@ -61,8 +61,23 @@ exports.handler = async (event) => {
   const apiKey = process.env.BREVO_API_KEY;
   const listId = Number(process.env.BREVO_WAITLIST_LIST_ID || 2);
   if (!apiKey) {
-    console.error('[waitlist] missing BREVO_API_KEY env');
-    return { statusCode: 500, body: JSON.stringify({ error: 'server_not_configured' }) };
+    // Temporary diagnostic — shows which env-var names the function
+    // runtime CAN see (names only, never values), so we can tell
+    // whether Netlify is scoping the key away from us or the name
+    // itself is off by a character. Remove once the key is wired.
+    const visibleEnvKeys = Object.keys(process.env)
+      .filter(k => /^BREVO|KEY$|^NODE_|CONTEXT$/i.test(k))
+      .sort();
+    console.error('[waitlist] missing BREVO_API_KEY env. Visible:', visibleEnvKeys);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({
+        error:       'server_not_configured',
+        visibleEnvKeys,
+        nodeVersion: process.version,
+        context:     process.env.CONTEXT || null,
+      }),
+    };
   }
 
   // Best-effort source attribution so marketing can tell
