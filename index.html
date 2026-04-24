@@ -1096,9 +1096,9 @@
           </div>
 
           <!--
-            The Loops submit machinery used to live inside the hero form.
-            It's moved alongside the sole remaining form in the closing CTA;
-            see the <iframe> and hidden <form id="loopsForm"> down there.
+            The waitlist form lives in the closing CTA section below.
+            It POSTs to /.netlify/functions/waitlist, which forwards to
+            Brevo with our server-side API key.
           -->
         </div>
 
@@ -1387,16 +1387,11 @@
           <p class="form-note" data-i18n="closing.formNote">No number games. No spam. Just us, reaching out when we're ready.</p>
         </div>
 
-        <!-- Invisible iframe target so the Loops form submits without
-             navigating away from this page. -->
-        <iframe name="loops-hidden" style="display:none;"></iframe>
-        <form id="loopsForm"
-          action="https://app.loops.so/api/newsletter-form/cmmkyjbmr0c0i0i2lkd5ia0on"
-          method="POST"
-          target="loops-hidden"
-          style="display:none;">
-          <input type="email" name="email" id="loopsEmail"/>
-        </form>
+        <!-- Inline error surface — shown only when the waitlist POST
+             fails. Hidden by default. -->
+        <p class="form-error" id="formError" role="alert" style="display:none;color:#b23a3a;font-size:13px;margin-top:8px;">
+          Something went wrong. Please try again in a moment.
+        </p>
 
         <div class="success-state" id="formSuccess">
           <div class="success-icon">
@@ -1864,9 +1859,9 @@
     setLanguage(detectInitialLanguage());
 
     /* ═══════════════════════════════════════════════════════════════
-       Waitlist form submit — only one form on the page (in the closing
-       CTA). Submits email to Loops via a hidden iframe so the page
-       doesn't navigate away.
+       Waitlist form submit. Posts JSON to /.netlify/functions/waitlist,
+       which upserts the contact into our Brevo waitlist list. The key
+       stays server-side on Netlify. See netlify/functions/waitlist.js.
        ═══════════════════════════════════════════════════════════════ */
     function validEmail(v) { return v && v.includes('@') && v.includes('.'); }
 
@@ -1877,20 +1872,41 @@
       setTimeout(() => { input.style.borderColor = ''; input.style.boxShadow = ''; }, 2000);
     }
 
-    function handleJoin() {
-      const input = document.getElementById('emailInput');
-      const btn   = document.getElementById('joinBtn');
-      const email = input.value.trim();
+    async function handleJoin() {
+      const input      = document.getElementById('emailInput');
+      const btn        = document.getElementById('joinBtn');
+      const errorEl    = document.getElementById('formError');
+      const email      = input.value.trim();
       if (!validEmail(email)) return flashError(input);
-      btn.disabled = true; btn.textContent = 'Joining…';
 
-      document.getElementById('loopsEmail').value = email;
-      document.getElementById('loopsForm').submit();
+      // Reset any previous error state before a new attempt.
+      if (errorEl) errorEl.style.display = 'none';
 
-      setTimeout(() => {
+      const originalLabel = btn.textContent;
+      btn.disabled    = true;
+      btn.textContent = 'Joining…';
+
+      try {
+        // Posts to the Netlify Function in netlify/functions/waitlist.js,
+        // which forwards to Brevo's /v3/contacts with our secret key.
+        // On success we flip to the confirmation state. On any failure
+        // the button re-enables and an inline error surfaces so the
+        // user can retry without losing their typed email.
+        const res = await fetch('/.netlify/functions/waitlist', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify({ email }),
+        });
+        if (!res.ok) throw new Error('waitlist_' + res.status);
+
         document.getElementById('formDefault').style.display = 'none';
         document.getElementById('formSuccess').style.display = 'block';
-      }, 900);
+      } catch (err) {
+        console.error('[waitlist] submit failed:', err);
+        if (errorEl) errorEl.style.display = 'block';
+        btn.disabled    = false;
+        btn.textContent = originalLabel;
+      }
     }
 
     document.getElementById('emailInput').addEventListener('keydown', e => {
