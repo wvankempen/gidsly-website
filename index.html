@@ -96,6 +96,43 @@
       padding: 0.45rem 1rem; border-radius: 999px;
       white-space: nowrap;
     }
+    /* Right side of the nav: badge + auth links share one flex row so the
+       group keeps its rhythm on every breakpoint. Login is a ghost link;
+       Register is a compact pill so the brand-mark anchor on the left and
+       the action on the right are visually balanced.
+       On phones (rule below) the row collapses into a stack: action buttons
+       on top, the Private Beta badge tucked underneath, both right-aligned. */
+    .nav-right {
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .nav-actions {
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .nav-login {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem; font-weight: 500;
+      color: var(--green-soft);
+      text-decoration: none;
+      transition: color .2s;
+      white-space: nowrap;
+    }
+    .nav-login:hover { color: var(--green); }
+    .nav-register {
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem; font-weight: 500;
+      background: var(--green); color: var(--cream);
+      text-decoration: none;
+      padding: 0.55rem 1.1rem; border-radius: 999px;
+      box-shadow: 0 4px 14px rgba(28, 69, 56, 0.2);
+      transition: background .2s, transform .15s, box-shadow .2s;
+      white-space: nowrap;
+    }
+    .nav-register:hover {
+      background: var(--green-soft);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(28, 69, 56, 0.28);
+    }
 
     /* ── HERO ─────────────────────────────────────────────── */
     /* Tighter vertical padding so "Built for the whole journey"
@@ -1039,6 +1076,15 @@
          without wrapping. Full text still reads on tablets and above. */
       .nav-badge-date    { display: none; }
       .nav-badge         { font-size: 0.65rem; padding: 0.4rem 0.85rem; }
+      /* On phones, the right side stacks: action buttons on top, the
+         Private Beta badge tucked underneath. Both stay right-aligned
+         so the brand mark on the left has space to breathe. */
+      .nav-right         { flex-direction: column; align-items: flex-end; gap: 0.5rem; }
+      .nav-right > .nav-badge   { order: 2; }
+      .nav-right > .nav-actions { order: 1; }
+      .nav-actions       { gap: 0.75rem; }
+      .nav-login         { font-size: 0.8rem; }
+      .nav-register      { font-size: 0.78rem; padding: 0.5rem 0.95rem; }
       /* Tighter card padding so content isn't crowded against edges */
       .feat-tab          { padding: 1.15rem 1.1rem; }
       .app-preview-body  { padding: 1.2rem 1rem 1.3rem; }
@@ -1069,8 +1115,14 @@
         </svg>
         <span class="brand-word">Gidsly</span>
       </a>
-      <div class="nav-badge">
-        Private Beta<span class="nav-badge-date" data-i18n="nav.badgeDate"> · Spring 2026</span>
+      <div class="nav-right">
+        <div class="nav-badge">
+          Private Beta<span class="nav-badge-date" data-i18n="nav.badgeDate"> · Spring 2026</span>
+        </div>
+        <div class="nav-actions">
+          <a href="https://app.gidsly.com/#/auth/signin" class="nav-login" data-i18n="nav.login">Log in</a>
+          <a href="https://app.gidsly.com/#/auth/create-account" class="nav-register" data-i18n="nav.register">Sign up</a>
+        </div>
       </div>
     </nav>
 
@@ -1556,7 +1608,7 @@
     const translations = {
       /* ── English ───────────────────────────────────────────── */
       en: {
-        nav: { badgeDate: " · Spring 2026" },
+        nav: { badgeDate: " · Spring 2026", login: "Log in", register: "Sign up" },
         hero: {
           headline: "The career companion<br>you <em>wish</em><br>you'd had.",
           sub:      "Gidsly keeps every application, interview, and career decision in one place, with honest coaching for the moments that aren't on a spreadsheet.",
@@ -1668,7 +1720,7 @@
 
       /* ── Dutch (polished) ──────────────────────────────────── */
       nl: {
-        nav: { badgeDate: " · Voorjaar 2026" },
+        nav: { badgeDate: " · Voorjaar 2026", login: "Inloggen", register: "Aanmelden" },
         hero: {
           // Brand payoff — stays in English across all languages (same treatment as "Private Beta", "Gidsly Tailor")
           headline: "The career companion<br>you <em>wish</em><br>you'd had.",
