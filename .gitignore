@@ -9,3 +9,10 @@ desktop.ini
 # Redundant local-only archives — kept on disk for reference, not tracked
 files/
 files.zip
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
