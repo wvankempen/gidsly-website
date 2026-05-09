@@ -36,7 +36,17 @@ Then visit `http://localhost:8000` (or whatever port the tool shows).
 
 ## Deploy
 
-Auto-deployed to **Netlify** on every push to `main`. No manual steps.
+Auto-deployed to **Cloudflare Pages** on every push to `main`. No manual steps.
+
+Server-side helpers live in `functions/api/` and are picked up automatically
+as Pages Functions:
+
+- `functions/api/waitlist.js` — homepage waitlist form (Brevo upsert)
+- `functions/api/contact.js`  — contact form (Brevo upsert + notification email)
+
+Required env vars in the Cloudflare Pages project:
+`BREVO_API_KEY`, `BREVO_SENDER_EMAIL`. Optional overrides:
+`CONTACT_FORWARD_EMAIL`, `BREVO_WAITLIST_LIST_ID`, `BREVO_CONTACT_LIST_ID`.
 
 ## Third-party services in this page
 

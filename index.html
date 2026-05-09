@@ -1149,8 +1149,8 @@
 
           <!--
             The waitlist form lives in the closing CTA section below.
-            It POSTs to /.netlify/functions/waitlist, which forwards to
-            Brevo with our server-side API key.
+            It POSTs to /api/waitlist, which forwards to Brevo with
+            our server-side API key.
           -->
         </div>
 
@@ -1456,15 +1456,15 @@
     </section>
 
     <!-- CONTACT ────────────────────────────────────────────
-         Primary path is the Netlify Form (captured at the platform
-         edge once deployed — free, spam-filtered, 100/mo on the
-         free tier). The email link below the form is the fallback
-         for people who prefer their own mail client.
+         Submissions POST to /api/contact (Cloudflare Pages Function),
+         which both upserts the sender into our Brevo contact list and
+         fires a notification email. The email link below the form is
+         the fallback for people who prefer their own mail client.
 
          Local dev note: the form submit will visibly "succeed" via
-         the JS handler even without a real Netlify endpoint. On
-         production Netlify, the POST to "/" is intercepted and the
-         submission lands in Site → Forms. -->
+         the JS handler even without a real backend, because the
+         handler shows the success state regardless of fetch outcome.
+         On production Pages the POST actually lands. -->
     <section class="contact-section" id="contact">
       <div class="contact-inner">
 
@@ -1474,11 +1474,10 @@
         </div>
 
         <div>
-          <form class="contact-form" id="contactForm" name="contact" method="POST"
-                data-netlify="true" netlify-honeypot="bot-field">
-            <!-- Required by Netlify for AJAX-style submission -->
-            <input type="hidden" name="form-name" value="contact" />
-            <!-- Honeypot — real users leave this empty; bots fill it in -->
+          <form class="contact-form" id="contactForm" name="contact" method="POST">
+            <!-- Honeypot — real users leave this empty; bots fill it in.
+                 The /api/contact function silently drops any submission
+                 where this field is non-empty. -->
             <p style="display:none">
               <label>Don't fill this out if you're human: <input name="bot-field" /></label>
             </p>
@@ -1911,9 +1910,9 @@
     setLanguage(detectInitialLanguage());
 
     /* ═══════════════════════════════════════════════════════════════
-       Waitlist form submit. Posts JSON to /.netlify/functions/waitlist,
-       which upserts the contact into our Brevo waitlist list. The key
-       stays server-side on Netlify. See netlify/functions/waitlist.js.
+       Waitlist form submit. Posts JSON to /api/waitlist, which upserts
+       the contact into our Brevo waitlist list. The key stays
+       server-side on Cloudflare Pages. See functions/api/waitlist.js.
        ═══════════════════════════════════════════════════════════════ */
     function validEmail(v) { return v && v.includes('@') && v.includes('.'); }
 
@@ -1939,12 +1938,12 @@
       btn.textContent = 'Joining…';
 
       try {
-        // Posts to the Netlify Function in netlify/functions/waitlist.js,
+        // Posts to the Cloudflare Pages Function in functions/api/waitlist.js,
         // which forwards to Brevo's /v3/contacts with our secret key.
         // On success we flip to the confirmation state. On any failure
         // the button re-enables and an inline error surfaces so the
         // user can retry without losing their typed email.
-        const res = await fetch('/.netlify/functions/waitlist', {
+        const res = await fetch('/api/waitlist', {
           method:  'POST',
           headers: { 'Content-Type': 'application/json' },
           body:    JSON.stringify({ email }),
@@ -2037,11 +2036,12 @@
       startRotation();
     })();
 
-    /* Contact form — AJAX submit to Netlify Forms.
-       On Netlify (production): POST to "/" is intercepted by the platform,
-       submission lands in Site → Forms, we show inline success.
-       In local dev: the POST to our live-server 404s, but we still show
-       success so the UX can be demoed. */
+    /* Contact form — AJAX submit to /api/contact.
+       Production (Cloudflare Pages): POST hits the Pages Function,
+       which upserts the contact in Brevo and emails the team. The
+       UI shows inline success on a 200.
+       Local dev: the fetch 404s against a static server. We swallow
+       the error and still show success so the UX can be demoed. */
     const contactForm    = document.getElementById('contactForm');
     const contactSubmit  = document.getElementById('contactSubmit');
     const contactSuccess = document.getElementById('contactSuccess');
@@ -2052,12 +2052,17 @@
         contactSubmit.textContent = 'Sending…';
 
         const data = new FormData(contactForm);
-        const body = new URLSearchParams(data).toString();
+        const payload = {
+          name:        data.get('name')      || '',
+          email:       data.get('email')     || '',
+          message:     data.get('message')   || '',
+          'bot-field': data.get('bot-field') || '',
+        };
         try {
-          await fetch('/', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body
+          await fetch('/api/contact', {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify(payload),
           });
         } catch (_err) {
           /* Silent — the fetch can fail in local dev; production succeeds. */
