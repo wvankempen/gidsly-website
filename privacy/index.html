@@ -167,7 +167,7 @@
     <!-- Legal copy is fetched at runtime from the gidsly-content repo. -->
     <!-- Source of truth: https://github.com/wvankempen/gidsly-content/blob/main/privacy.md -->
     <!-- Edits to that repo propagate within ~5 min via raw GitHub's short cache. -->
-    <script src="https://cdn.jsdelivr.net/npm/marked@13/marked.min.js"></script>
+    <script src="/vendor/marked.min.js"></script>
     <script>
       fetch('https://raw.githubusercontent.com/wvankempen/gidsly-content/main/privacy.md', { cache: 'no-cache' })
         .then(function(r) {
