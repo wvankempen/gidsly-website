@@ -169,7 +169,7 @@
     <!-- Edits to that repo propagate within ~5 min via raw GitHub's short cache. -->
     <script src="https://cdn.jsdelivr.net/npm/marked@13/marked.min.js"></script>
     <script>
-      fetch('https://raw.githubusercontent.com/wvankempen/gidsly-content/main/privacy.md')
+      fetch('https://raw.githubusercontent.com/wvankempen/gidsly-content/main/privacy.md', { cache: 'no-cache' })
         .then(function(r) {
           if (!r.ok) throw new Error('fetch failed: ' + r.status);
           return r.text();
