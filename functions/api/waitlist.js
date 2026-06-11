@@ -47,6 +47,15 @@ export async function onRequestPost({ request, env }) {
     return jsonError(400, 'invalid_email');
   }
 
+  // First + last name are mandatory at the form level so we can
+  // personalise FUT outreach ("Hi {{contact.FIRSTNAME}}, …"). Trim,
+  // cap at a sane length, and reject empties. We don't normalise
+  // case because names carry their own preferences (e.g. "van Kempen").
+  const firstName = typeof payload?.firstName === 'string' ? payload.firstName.trim().slice(0, 80) : '';
+  const lastName  = typeof payload?.lastName  === 'string' ? payload.lastName.trim().slice(0, 80)  : '';
+  if (!firstName) return jsonError(400, 'missing_first_name');
+  if (!lastName)  return jsonError(400, 'missing_last_name');
+
   const apiKey = env.BREVO_API_KEY || env.BREVO_KEY;
   const listId = Number(env.BREVO_WAITLIST_LIST_ID || 2);
   if (!apiKey) {
@@ -73,7 +82,12 @@ export async function onRequestPost({ request, env }) {
         email,
         listIds:       [listId],
         updateEnabled: true,
+        // FIRSTNAME + LASTNAME are Brevo's standard attribute names —
+        // they show up in the contact list view as their own columns
+        // and are usable in templates as {{contact.FIRSTNAME}} etc.
         attributes: {
+          FIRSTNAME:    firstName,
+          LASTNAME:     lastName,
           SIGNED_UP_AT: new Date().toISOString(),
           SOURCE:       'gidsly.com-waitlist',
           REFERRER_URL: referrer || undefined,

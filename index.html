@@ -237,6 +237,10 @@
       color: var(--green); margin-bottom: 0.9rem;
     }
     .input-row { display: flex; gap: 0.55rem; }
+    /* Stack the name-row above the email-row inside the waitlist
+       card. Same flex layout, just a small vertical gap so the two
+       rows don't bump into each other. */
+    .input-row + .input-row { margin-top: 0.55rem; }
     .input-field {
       flex: 1;
       font-family: 'Inter', sans-serif; font-size: 0.95rem;
@@ -1431,7 +1435,15 @@
 
       <div class="waitlist">
         <div id="formDefault">
-          <label class="waitlist-label" for="emailInput" data-i18n="closing.formLabel">Request early access</label>
+          <label class="waitlist-label" for="firstNameInput" data-i18n="closing.formLabel">Request early access</label>
+          <!-- First + last name. Both required. We address users by
+               first name in FUT outreach; last name lands in Brevo
+               so we can write "Hi {{contact.FIRSTNAME}}" or use the
+               full name when needed. -->
+          <div class="input-row">
+            <input type="text" class="input-field" id="firstNameInput" placeholder="First name" autocomplete="given-name" data-i18n-placeholder="closing.firstNamePlaceholder" required/>
+            <input type="text" class="input-field" id="lastNameInput"  placeholder="Last name"  autocomplete="family-name" data-i18n-placeholder="closing.lastNamePlaceholder" required/>
+          </div>
           <div class="input-row">
             <input type="email" class="input-field" id="emailInput" placeholder="your@email.com" autocomplete="email" data-i18n-placeholder="closing.formPlaceholder"/>
             <button class="btn-join" id="joinBtn" onclick="handleJoin()" data-i18n="closing.formButton">Join the waitlist</button>
@@ -1689,14 +1701,16 @@
           text:    "A job search isn't just a process. It's one of the most human things you'll ever do. <strong>We built Gidsly with that in mind.</strong>"
         },
         closing: {
-          title:          "Be early. Shape how it launches.",
-          sub:            "We're onboarding a small first group of professionals across the Netherlands in Spring 2026. Add your email and we'll reach out personally.",
-          formLabel:      "Request early access",
-          formPlaceholder:"your@email.com",
-          formButton:     "Join the waitlist",
-          formNote:       "No number games. No spam. Just us, reaching out when we're ready.",
-          successTitle:   "You're on the list.",
-          successSub:     "We'll be in touch personally before launch."
+          title:                "Be early. Shape how it launches.",
+          sub:                  "We're onboarding a small first group of professionals across the Netherlands in Spring 2026. Add your details and we'll reach out personally.",
+          formLabel:            "Request early access",
+          firstNamePlaceholder: "First name",
+          lastNamePlaceholder:  "Last name",
+          formPlaceholder:      "your@email.com",
+          formButton:           "Join the waitlist",
+          formNote:             "No number games. No spam. Just us, reaching out when we're ready.",
+          successTitle:         "You're on the list.",
+          successSub:           "We'll be in touch personally before launch."
         },
         contact: {
           title:            "Get in touch.",
@@ -1803,14 +1817,16 @@
           text:    "Solliciteren is meer dan een proces. Het is een van de meest menselijke dingen die je ooit doet. <strong>Met die gedachte is Gidsly gebouwd.</strong>"
         },
         closing: {
-          title:          "Wees er vroeg bij. Bepaal mee hoe we lanceren.",
-          sub:            "We laten in het voorjaar van 2026 een kleine eerste groep professionals in Nederland toe. Laat je e-mail achter en we nemen persoonlijk contact op.",
-          formLabel:      "Vraag vroege toegang aan",
-          formPlaceholder:"jouw@e-mail.nl",
-          formButton:     "Op de wachtlijst",
-          formNote:       "Geen cijferspelletjes. Geen spam. Gewoon wij, die ons melden wanneer het tijd is.",
-          successTitle:   "Je staat op de lijst.",
-          successSub:     "We nemen vóór de lancering persoonlijk contact op."
+          title:                "Wees er vroeg bij. Bepaal mee hoe we lanceren.",
+          sub:                  "We laten in het voorjaar van 2026 een kleine eerste groep professionals in Nederland toe. Laat je gegevens achter en we nemen persoonlijk contact op.",
+          formLabel:            "Vraag vroege toegang aan",
+          firstNamePlaceholder: "Voornaam",
+          lastNamePlaceholder:  "Achternaam",
+          formPlaceholder:      "jouw@e-mail.nl",
+          formButton:           "Op de wachtlijst",
+          formNote:             "Geen cijferspelletjes. Geen spam. Gewoon wij, die ons melden wanneer het tijd is.",
+          successTitle:         "Je staat op de lijst.",
+          successSub:           "We nemen vóór de lancering persoonlijk contact op."
         },
         contact: {
           title:            "Neem contact op.",
@@ -1928,10 +1944,20 @@
     }
 
     async function handleJoin() {
+      const firstInput = document.getElementById('firstNameInput');
+      const lastInput  = document.getElementById('lastNameInput');
       const input      = document.getElementById('emailInput');
       const btn        = document.getElementById('joinBtn');
       const errorEl    = document.getElementById('formError');
+      const firstName  = firstInput.value.trim();
+      const lastName   = lastInput.value.trim();
       const email      = input.value.trim();
+
+      // Validate in left-to-right order so the user is guided to fix
+      // the first missing field first. Each field flashes its own
+      // border so the cue is unambiguous.
+      if (!firstName)        return flashError(firstInput);
+      if (!lastName)         return flashError(lastInput);
       if (!validEmail(email)) return flashError(input);
 
       // Reset any previous error state before a new attempt.
@@ -1946,11 +1972,11 @@
         // which forwards to Brevo's /v3/contacts with our secret key.
         // On success we flip to the confirmation state. On any failure
         // the button re-enables and an inline error surfaces so the
-        // user can retry without losing their typed email.
+        // user can retry without losing their typed details.
         const res = await fetch('/api/waitlist', {
           method:  'POST',
           headers: { 'Content-Type': 'application/json' },
-          body:    JSON.stringify({ email }),
+          body:    JSON.stringify({ email, firstName, lastName }),
         });
         if (!res.ok) throw new Error('waitlist_' + res.status);
 
@@ -1964,8 +1990,11 @@
       }
     }
 
-    document.getElementById('emailInput').addEventListener('keydown', e => {
-      if (e.key === 'Enter') handleJoin();
+    // Enter submits the form from any of the three inputs.
+    ['firstNameInput', 'lastNameInput', 'emailInput'].forEach(id => {
+      document.getElementById(id).addEventListener('keydown', e => {
+        if (e.key === 'Enter') handleJoin();
+      });
     });
 
     /* Feature tab switching + 10-second auto-rotation.
