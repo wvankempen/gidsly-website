@@ -42,7 +42,7 @@
     "name": "Gidsly",
     "legalName": "Van Kempen Ventures and Consultancy",
     "url": "https://gidsly.com/",
-    "logo": "https://gidsly.com/gidsly-og-banner.png",
+    "logo": "https://gidsly.com/gidsly-icon-512.png",
     "description": "Gidsly keeps every application, interview, and career decision in one place, with honest coaching for the moments that aren't on a spreadsheet.",
     "sameAs": [
       "https://www.linkedin.com/company/gidsly",
@@ -52,7 +52,13 @@
   }
   </script>
 
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%231c4538'/><text x='50' y='74' text-anchor='middle' fill='%23f5e3cc' font-family='Georgia,serif' font-weight='700' font-size='78'>G</text></svg>" />
+  <!-- Favicons: real files at permanent URLs. Google ignores data:
+       URL favicons and shows the generic globe in search results
+       instead, so the data: SVG that used to live here only worked
+       for browser tabs, never for search. -->
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/gidsly-icon-512.png" />
+  <link rel="apple-touch-icon" href="/gidsly-apple-touch-icon.png" />
 
   <!-- Alternate language variants for search engines. Query-param approach
        keeps things to one HTML file; once we move to path-based URLs later,
