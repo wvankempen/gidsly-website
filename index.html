@@ -6,13 +6,51 @@
   <title>Gidsly: the career companion you wish you'd had.</title>
   <meta name="description" content="Gidsly keeps every application, interview, and career decision in one place, with honest coaching for the moments that aren't on a spreadsheet." />
 
+  <!-- Canonical: apex gidsly.com (not www). The www variant 301s to apex
+       at the Cloudflare layer. Keep these absolute and consistent across
+       every page so Google sees one entity per URL. -->
+  <link rel="canonical" href="https://gidsly.com/" />
+
   <!-- Open Graph / social share -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Gidsly: the career companion you wish you'd had." />
   <meta property="og:description" content="Gidsly keeps every application, interview, and career decision in one place, with honest coaching for the moments that aren't on a spreadsheet." />
-  <meta property="og:image" content="gidsly-og-banner.png" />
-  <meta property="og:url" content="https://gidsly.com" />
+  <!-- og:image MUST be absolute (link-preview scrapers don't resolve relative). -->
+  <meta property="og:image" content="https://gidsly.com/gidsly-og-banner.png" />
+  <meta property="og:image:alt" content="Gidsly, your AI career companion." />
+  <meta property="og:url" content="https://gidsly.com/" />
+  <meta property="og:site_name" content="Gidsly" />
+
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Gidsly: the career companion you wish you'd had." />
+  <meta name="twitter:description" content="Gidsly keeps every application, interview, and career decision in one place, with honest coaching for the moments that aren't on a spreadsheet." />
+  <meta name="twitter:image" content="https://gidsly.com/gidsly-og-banner.png" />
+
+  <!-- Organization schema (JSON-LD). The point of this block is to
+       assert Gidsly as its own entity so Google stops conflating us
+       with Gidsy / Givsly / Guidesly.
+
+       sameAs values below are PLACEHOLDERS pending confirmed handles.
+       If a platform 404s, Google silently ignores; if it exists,
+       Google uses it as a same-entity signal. Update when the
+       founder confirms real URLs. Logo currently reuses the OG
+       banner; swap to a proper square brand mark when ready. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Gidsly",
+    "legalName": "Van Kempen Ventures and Consultancy",
+    "url": "https://gidsly.com/",
+    "logo": "https://gidsly.com/gidsly-og-banner.png",
+    "description": "Gidsly keeps every application, interview, and career decision in one place, with honest coaching for the moments that aren't on a spreadsheet.",
+    "sameAs": [
+      "https://www.linkedin.com/company/gidsly",
+      "https://x.com/gidsly",
+      "https://www.crunchbase.com/organization/gidsly"
+    ]
+  }
+  </script>
 
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%231c4538'/><text x='50' y='74' text-anchor='middle' fill='%23f5e3cc' font-family='Georgia,serif' font-weight='700' font-size='78'>G</text></svg>" />
 

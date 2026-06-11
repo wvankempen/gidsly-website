@@ -1,0 +1,44 @@
+# robots.txt for gidsly.com
+#
+# Search engines: allowed everywhere. The marketing site is meant to
+# be indexed; the auth-gated app at app.gidsly.com is separate (it
+# uses HashRouter and isn't crawlable by design).
+#
+# AI-training crawlers: blocked. We don't want our marketing copy
+# pulled into model training datasets without consent. This list
+# mirrors what Cloudflare's managed-content service was previously
+# injecting; keeping it in-repo means a future Cloudflare toggle
+# can't silently remove our policy.
+
+User-agent: *
+Allow: /
+
+# AI / model-training crawlers — block.
+User-agent: Amazonbot
+Disallow: /
+
+User-agent: Applebot-Extended
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: CloudflareBrowserRenderingCrawler
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: GPTBot
+Disallow: /
+
+User-agent: meta-externalagent
+Disallow: /
+
+Sitemap: https://gidsly.com/sitemap.xml
