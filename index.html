@@ -245,13 +245,18 @@
       flex: 1;
       font-family: 'Inter', sans-serif; font-size: 0.95rem;
       background: var(--bg);
-      border: 1.5px solid rgba(28, 69, 56, 0.12);
+      /* Border opacity bumped from 0.12 to 0.28 when the waitlist
+         gained two extra inputs (first + last name) — at 0.12 each
+         field's edge disappeared into the card, making the form look
+         like floating placeholder text. 0.28 reads clearly without
+         feeling heavy. */
+      border: 1.5px solid rgba(28, 69, 56, 0.28);
       border-radius: 0.9rem;
       padding: 0.85rem 1.1rem;
       color: var(--ink); outline: none;
       transition: border-color .2s, box-shadow .2s;
     }
-    .input-field::placeholder { color: rgba(20, 51, 41, 0.32); }
+    .input-field::placeholder { color: rgba(20, 51, 41, 0.45); }
     .input-field:focus { border-color: var(--green-soft); box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.12); }
 
     .btn-join {
