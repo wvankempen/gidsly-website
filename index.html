@@ -243,6 +243,12 @@
     .input-row + .input-row { margin-top: 0.55rem; }
     .input-field {
       flex: 1;
+      /* Inputs in flex containers carry a browser intrinsic min-width
+         from the `size` attribute (~187px). With two name inputs +
+         gap + padding that's wider than the 500-px card and the right
+         input overflows. `min-width: 0` lets the input shrink to its
+         flex share. */
+      min-width: 0;
       font-family: 'Inter', sans-serif; font-size: 0.95rem;
       background: var(--bg);
       /* Border opacity bumped from 0.12 to 0.28 when the waitlist
