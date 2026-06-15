@@ -57,16 +57,17 @@
   <link rel="icon" type="image/png" sizes="512x512" href="/gidsly-icon-512.png" />
   <link rel="apple-touch-icon" href="/gidsly-apple-touch-icon.png" />
 
-  <!-- Alternate language variants for search engines. Query-param approach
-       keeps things to one HTML file; once we move to path-based URLs later,
-       these hrefs update to /nl/, /de/, etc. -->
-  <link rel="alternate" hreflang="x-default" href="https://gidsly.com/" />
-  <link rel="alternate" hreflang="en" href="https://gidsly.com/?lang=en" />
-  <link rel="alternate" hreflang="nl" href="https://gidsly.com/?lang=nl" />
-  <link rel="alternate" hreflang="de" href="https://gidsly.com/?lang=de" />
-  <link rel="alternate" hreflang="fr" href="https://gidsly.com/?lang=fr" />
-  <link rel="alternate" hreflang="es" href="https://gidsly.com/?lang=es" />
-  <link rel="alternate" hreflang="it" href="https://gidsly.com/?lang=it" />
+  <!-- No hreflang tags. The in-page lang switcher swaps content
+       client-side via data-set-lang, but Google's snapshot captures
+       the same baseline English DOM at every ?lang= URL, so the
+       previous hreflang block produced six "alternate with correct
+       canonical" entries in Search Console (2026-06-15) without
+       actually buying us any multi-language SEO.
+
+       Reintroduce hreflang ONLY when each language has its own
+       fully-rendered URL — e.g. /nl/, /de/ as separate routes with
+       translated HTML at request time. Until then, the lang switcher
+       remains a UX-only affordance.  -->
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

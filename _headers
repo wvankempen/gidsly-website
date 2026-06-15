@@ -1,0 +1,12 @@
+# Cloudflare Pages _headers — applies to every matching response.
+# Docs: https://developers.cloudflare.com/pages/configuration/headers/
+#
+# /api/* are Pages Functions (functions/api/contact.js, waitlist.js).
+# They return JSON, not HTML, but Google was finding them through the
+# marketing site domain and listing them in Search Console coverage.
+# X-Robots-Tag is the response-header equivalent of <meta name="robots">
+# which we cannot set on JSON. noindex stops indexing of any response;
+# nofollow prevents Google from chasing URLs inside JSON bodies.
+
+/api/*
+  X-Robots-Tag: noindex, nofollow
