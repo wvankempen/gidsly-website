@@ -1173,9 +1173,6 @@
         <span class="brand-word">Gidsly</span>
       </a>
       <div class="nav-right">
-        <div class="nav-badge">
-          Private Beta<span class="nav-badge-date" data-i18n="nav.badgeDate"> · Spring 2026</span>
-        </div>
         <div class="nav-actions">
           <a href="https://app.gidsly.com/#/auth/signin" class="nav-login" data-i18n="nav.login">Log in</a>
           <a href="https://app.gidsly.com/#/auth/create-account" class="nav-register" data-i18n="nav.register">Sign up</a>
@@ -1194,13 +1191,13 @@
           </p>
 
           <!--
-            The hero no longer carries the full waitlist form — keeping the
-            hero tight pulls the "Built for the whole journey" section above
-            the fold on larger screens. Primary CTA anchor-scrolls to the
-            single remaining form down in the closing CTA section.
+            Primary CTA links directly to the app signup URL now that
+            Gidsly is publicly open (2026-07-01 flip). Secondary CTA
+            anchor-scrolls to the features section for visitors who
+            want to see the product first.
           -->
           <div class="hero-cta">
-            <a href="#waitlist" class="btn-primary" data-i18n="hero.ctaPrimary">Request early access</a>
+            <a href="https://app.gidsly.com/#/auth/create-account" class="btn-primary" data-i18n="hero.ctaPrimary">Start free</a>
             <a href="#features" class="btn-ghost" data-i18n="hero.ctaSecondary">See how it works →</a>
           </div>
 
@@ -1477,46 +1474,22 @@
       </div>
     </div>
 
-    <!-- CLOSING CTA + WAITLIST ─────────────────────────────
-         The single waitlist form on the page. The hero CTA button
-         anchor-scrolls here via #waitlist. -->
+    <!-- CLOSING CTA ─────────────────────────────────────────
+         Formerly held the waitlist form. Since Gidsly opened publicly
+         on 2026-07-01, this section is now a single big "start free"
+         CTA that links to the app signup. The section id="waitlist"
+         is kept for any inbound links that still anchor to it. -->
     <section class="close-cta" id="waitlist">
-      <h2 class="close-title" data-i18n="closing.title">Be early. Shape how it launches.</h2>
+      <h2 class="close-title" data-i18n="closing.title">Ready to try Gidsly?</h2>
       <p class="close-sub" data-i18n="closing.sub">
-        We're onboarding a small first group of professionals across the Netherlands in Spring 2026. Add your email and we'll reach out personally.
+        Free to start. Premium at €9.95 per month or €99.50 per year when you're ready for more.
       </p>
 
       <div class="waitlist">
-        <div id="formDefault">
-          <label class="waitlist-label" for="firstNameInput" data-i18n="closing.formLabel">Request early access</label>
-          <!-- First + last name. Both required. We address users by
-               first name in FUT outreach; last name lands in Brevo
-               so we can write "Hi {{contact.FIRSTNAME}}" or use the
-               full name when needed. -->
-          <div class="input-row">
-            <input type="text" class="input-field" id="firstNameInput" placeholder="First name" autocomplete="given-name" data-i18n-placeholder="closing.firstNamePlaceholder" required/>
-            <input type="text" class="input-field" id="lastNameInput"  placeholder="Last name"  autocomplete="family-name" data-i18n-placeholder="closing.lastNamePlaceholder" required/>
-          </div>
-          <div class="input-row">
-            <input type="email" class="input-field" id="emailInput" placeholder="your@email.com" autocomplete="email" data-i18n-placeholder="closing.formPlaceholder"/>
-            <button class="btn-join" id="joinBtn" onclick="handleJoin()" data-i18n="closing.formButton">Join the waitlist</button>
-          </div>
-          <p class="form-note" data-i18n="closing.formNote">No number games. No spam. Just us, reaching out when we're ready.</p>
-        </div>
-
-        <!-- Inline error surface — shown only when the waitlist POST
-             fails. Hidden by default. -->
-        <p class="form-error" id="formError" role="alert" style="display:none;color:#b23a3a;font-size:13px;margin-top:8px;">
-          Something went wrong. Please try again in a moment.
-        </p>
-
-        <div class="success-state" id="formSuccess">
-          <div class="success-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-          </div>
-          <div class="success-title" data-i18n="closing.successTitle">You're on the list.</div>
-          <p class="success-sub" data-i18n="closing.successSub">We'll be in touch personally before launch.</p>
-        </div>
+        <a href="https://app.gidsly.com/#/auth/create-account" class="btn-join" data-i18n="closing.formButton" style="display:inline-block;text-decoration:none;text-align:center;">
+          Create your account
+        </a>
+        <p class="form-note" data-i18n="closing.formNote">No credit card required. Cancel anytime.</p>
       </div>
     </section>
 
@@ -1674,11 +1647,11 @@
     const translations = {
       /* ── English ───────────────────────────────────────────── */
       en: {
-        nav: { badgeDate: " · Spring 2026", login: "Log in", register: "Sign up" },
+        nav: { login: "Log in", register: "Sign up" },
         hero: {
           headline: "The career companion<br>you <em>wish</em><br>you'd had.",
           sub:      "Gidsly keeps every application, interview, and career decision in one place, with honest coaching for the moments that aren't on a spreadsheet.",
-          ctaPrimary:   "Request early access",
+          ctaPrimary:   "Start free",
           ctaSecondary: "See how it works →",
           appPreview: {
             title: "Applications",
@@ -1754,16 +1727,10 @@
           text:    "A job search isn't just a process. It's one of the most human things you'll ever do. <strong>We built Gidsly with that in mind.</strong>"
         },
         closing: {
-          title:                "Be early. Shape how it launches.",
-          sub:                  "We're onboarding a small first group of professionals across the Netherlands in Spring 2026. Add your details and we'll reach out personally.",
-          formLabel:            "Request early access",
-          firstNamePlaceholder: "First name",
-          lastNamePlaceholder:  "Last name",
-          formPlaceholder:      "your@email.com",
-          formButton:           "Join the waitlist",
-          formNote:             "No number games. No spam. Just us, reaching out when we're ready.",
-          successTitle:         "You're on the list.",
-          successSub:           "We'll be in touch personally before launch."
+          title:                "Ready to try Gidsly?",
+          sub:                  "Free to start. Premium at €9.95 per month or €99.50 per year when you're ready for more.",
+          formButton:           "Create your account",
+          formNote:             "No credit card required. Cancel anytime."
         },
         contact: {
           title:            "Get in touch.",
@@ -1789,7 +1756,7 @@
 
       /* ── Dutch (polished) ──────────────────────────────────── */
       nl: {
-        nav: { badgeDate: " · Voorjaar 2026", login: "Inloggen", register: "Aanmelden" },
+        nav: { login: "Inloggen", register: "Aanmelden" },
         hero: {
           // Brand payoff — stays in English across all languages (same treatment as "Private Beta", "Gidsly Tailor")
           headline: "The career companion<br>you <em>wish</em><br>you'd had.",
@@ -1870,16 +1837,10 @@
           text:    "Solliciteren is meer dan een proces. Het is een van de meest menselijke dingen die je ooit doet. <strong>Met die gedachte is Gidsly gebouwd.</strong>"
         },
         closing: {
-          title:                "Wees er vroeg bij. Bepaal mee hoe we lanceren.",
-          sub:                  "We laten in het voorjaar van 2026 een kleine eerste groep professionals in Nederland toe. Laat je gegevens achter en we nemen persoonlijk contact op.",
-          formLabel:            "Vraag vroege toegang aan",
-          firstNamePlaceholder: "Voornaam",
-          lastNamePlaceholder:  "Achternaam",
-          formPlaceholder:      "jouw@e-mail.nl",
-          formButton:           "Op de wachtlijst",
-          formNote:             "Geen cijferspelletjes. Geen spam. Gewoon wij, die ons melden wanneer het tijd is.",
-          successTitle:         "Je staat op de lijst.",
-          successSub:           "We nemen vóór de lancering persoonlijk contact op."
+          title:                "Klaar om Gidsly te proberen?",
+          sub:                  "Gratis om te beginnen. Premium voor €9,95 per maand of €99,50 per jaar wanneer je meer wilt.",
+          formButton:           "Maak je account aan",
+          formNote:             "Geen creditcard nodig. Altijd opzegbaar."
         },
         contact: {
           title:            "Neem contact op.",
@@ -1981,74 +1942,6 @@
     });
 
     setLanguage(detectInitialLanguage());
-
-    /* ═══════════════════════════════════════════════════════════════
-       Waitlist form submit. Posts JSON to /api/waitlist, which upserts
-       the contact into our Brevo waitlist list. The key stays
-       server-side on Cloudflare Pages. See functions/api/waitlist.js.
-       ═══════════════════════════════════════════════════════════════ */
-    function validEmail(v) { return v && v.includes('@') && v.includes('.'); }
-
-    function flashError(input) {
-      input.style.borderColor = '#e05a5a';
-      input.style.boxShadow   = '0 0 0 3px rgba(224, 90, 90, 0.12)';
-      input.focus();
-      setTimeout(() => { input.style.borderColor = ''; input.style.boxShadow = ''; }, 2000);
-    }
-
-    async function handleJoin() {
-      const firstInput = document.getElementById('firstNameInput');
-      const lastInput  = document.getElementById('lastNameInput');
-      const input      = document.getElementById('emailInput');
-      const btn        = document.getElementById('joinBtn');
-      const errorEl    = document.getElementById('formError');
-      const firstName  = firstInput.value.trim();
-      const lastName   = lastInput.value.trim();
-      const email      = input.value.trim();
-
-      // Validate in left-to-right order so the user is guided to fix
-      // the first missing field first. Each field flashes its own
-      // border so the cue is unambiguous.
-      if (!firstName)        return flashError(firstInput);
-      if (!lastName)         return flashError(lastInput);
-      if (!validEmail(email)) return flashError(input);
-
-      // Reset any previous error state before a new attempt.
-      if (errorEl) errorEl.style.display = 'none';
-
-      const originalLabel = btn.textContent;
-      btn.disabled    = true;
-      btn.textContent = 'Joining…';
-
-      try {
-        // Posts to the Cloudflare Pages Function in functions/api/waitlist.js,
-        // which forwards to Brevo's /v3/contacts with our secret key.
-        // On success we flip to the confirmation state. On any failure
-        // the button re-enables and an inline error surfaces so the
-        // user can retry without losing their typed details.
-        const res = await fetch('/api/waitlist', {
-          method:  'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body:    JSON.stringify({ email, firstName, lastName }),
-        });
-        if (!res.ok) throw new Error('waitlist_' + res.status);
-
-        document.getElementById('formDefault').style.display = 'none';
-        document.getElementById('formSuccess').style.display = 'block';
-      } catch (err) {
-        console.error('[waitlist] submit failed:', err);
-        if (errorEl) errorEl.style.display = 'block';
-        btn.disabled    = false;
-        btn.textContent = originalLabel;
-      }
-    }
-
-    // Enter submits the form from any of the three inputs.
-    ['firstNameInput', 'lastNameInput', 'emailInput'].forEach(id => {
-      document.getElementById(id).addEventListener('keydown', e => {
-        if (e.key === 'Enter') handleJoin();
-      });
-    });
 
     /* Feature tab switching + 10-second auto-rotation.
        Rotation starts on page load. Clicking any tab cancels the
